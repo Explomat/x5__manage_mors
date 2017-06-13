@@ -1,0 +1,35 @@
+.modal {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(91,91,91,.26);
+    z-index: 1050;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    outline: 0px;
+    overflow: auto;
+    
+    .modal-dialog {
+    	position: absolute;
+	    top: 10%;
+	    width: 500px;
+	    left: 50%;
+	    background: #fff;
+	    z-index: 3;
+	    box-shadow: 2px 2px 10px 0 #969696;
+	    box-sizing: border-box;
+	    transform: translateX(-50%);
+        
+        .modal-dialog__save{
+            float: right;
+        }
+    }
+}
+
+@media (max-width: 500px) {
+     .modal-dialog {
+     	width: 99% !important;
+     }
+}
