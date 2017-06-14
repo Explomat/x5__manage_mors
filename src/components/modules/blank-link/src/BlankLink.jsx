@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const BlankLink = ({ children, hash, ...props }) => {
 	const handleClick = (e) => {
@@ -6,7 +7,7 @@ export const BlankLink = ({ children, hash, ...props }) => {
 			e.preventDefault();
 			return;
 		}
-		
+
 		if (e.button !== 0){
 			e.preventDefault();
 		}
@@ -15,7 +16,7 @@ export const BlankLink = ({ children, hash, ...props }) => {
 			window.open(hash);
 		}
 	};
-	
+
 	return (
 		<a onClick={handleClick} href={hash || '#'} {...props}>
 			{children}
@@ -24,6 +25,6 @@ export const BlankLink = ({ children, hash, ...props }) => {
 };
 
 BlankLink.propTypes = {
-	children: React.PropTypes.element,
-	hash: React.PropTypes.string
+	children: PropTypes.element,
+	hash: PropTypes.string
 };

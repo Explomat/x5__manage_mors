@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 class RelativePortal extends Component {
-	
+
 	constructor(props) {
 		super(props);
 
@@ -28,15 +29,15 @@ class RelativePortal extends Component {
 				this.setState({ left, top });
 			}
 		};
-    
+
 		window.addEventListener('resize', this.handleResize);
 		this.handleResize();
 	}
-  
+
 	render() {
 		return <div />;
 	}
-  
+
 	componentDidUpdate() {
 	  	const newObj = { children: this.props.children, className: this.props.className };
 		ReactDOM.render(
@@ -51,7 +52,7 @@ class RelativePortal extends Component {
 	      this.node
 	    );
 	}
-  
+
 	componentWillUnmout() {
 		document.body.removeChild(this.node);
 	}
@@ -60,8 +61,8 @@ class RelativePortal extends Component {
 RelativePortal.propTypes = {
 	node: PropTypes.any,
   	className: PropTypes.string,
-	top: React.PropTypes.number,
-	left: React.PropTypes.number
+	top: PropTypes.number,
+	left: PropTypes.number
 };
 
 RelativePortal.defaultProps = {

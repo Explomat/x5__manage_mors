@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SelectedItems from './SelectedItems';
 import Items from './Items';
 import Filters from './Filters';
@@ -18,7 +19,7 @@ import './style/select-items.styl';
 }*/
 
 class SelectItems extends React.Component {
-	
+
 	constructor(props){
 		super(props);
 		this.types = { 'integer': 'integer', 'date': 'date' };
@@ -217,19 +218,19 @@ class SelectItems extends React.Component {
 }
 
 SelectItems.childContextTypes = {
-	onSort: React.PropTypes.func,
-	onAddItem: React.PropTypes.func,
-	onRemoveItem: React.PropTypes.func
+	onSort: PropTypes.func,
+	onAddItem: PropTypes.func,
+	onRemoveItem: PropTypes.func
 }
 
 SelectItems.propTypes = {
-	items: React.PropTypes.array,
-	selectedItems: React.PropTypes.array,
-	maxSelectedItems: React.PropTypes.number,
-	title: React.PropTypes.string,
-	onClose: React.PropTypes.func,
-	onSave: React.PropTypes.func,
-	onChange: React.PropTypes.func
+	items: PropTypes.array,
+	selectedItems: PropTypes.array,
+	maxSelectedItems: PropTypes.number,
+	title: PropTypes.string,
+	onClose: PropTypes.func,
+	onSave: PropTypes.func,
+	onChange: PropTypes.func
 }
 
 SelectItems.defaultProps = {

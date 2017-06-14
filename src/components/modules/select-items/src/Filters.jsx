@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SearchBar from '../../search-bar';
 
 class Paging extends React.Component {
-	
+
 	constructor(props){
 		super(props);
-		
+
 		this.state = {
 			value: props.value
 		};
 	}
-	
+
 	componentWillReceiveProps(nextProps){
 		this.setState({ value: nextProps.value });
 	}
@@ -73,8 +74,8 @@ class Paging extends React.Component {
 }
 
 Paging.propTypes = {
-	value: React.PropTypes.number,
-	onChange: React.PropTypes.func
+	value: PropTypes.number,
+	onChange: PropTypes.func
 };
 
 Paging.defaultProps = {
@@ -86,7 +87,7 @@ Paging.defaultProps = {
 };
 
 class Filters extends React.Component {
-	
+
 	render() {
 		return (
 			<div className='filters'>
@@ -107,8 +108,8 @@ class Filters extends React.Component {
 }
 
 Filters.propTypes = {
-	onSearch: React.PropTypes.func,
-	onPage: React.PropTypes.func
+	onSearch: PropTypes.func,
+	onPage: PropTypes.func
 };
 
 export default Filters;

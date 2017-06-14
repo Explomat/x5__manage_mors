@@ -1,8 +1,9 @@
 import React from 'react';
-import {TextView, TextAreaView} from '../../text-label';
+import PropTypes from 'prop-types';
+import { TextView, TextAreaView } from '../../text-label';
 import SelectedItem from './SelectedItem';
 import NotSelectedItem from './NotSelectedItem';
-import {find, filter} from 'lodash';
+import { find, filter } from 'lodash';
 import cx from 'classnames';
 
 import './style/message.styl';
@@ -22,11 +23,11 @@ class Message extends React.Component {
     }
 
     static propsTypes = {
-        notSelectedItems: React.PropTypes.array,
-        selectedItems: React.PropTypes.array,
-        onSend: React.PropTypes.func,
-        isShow: React.PropTypes.bool,
-        title: React.PropTypes.string
+        notSelectedItems: PropTypes.array,
+        selectedItems: PropTypes.array,
+        onSend: PropTypes.func,
+        isShow: PropTypes.bool,
+        title: PropTypes.string
     }
 
     static defaultProps = {
@@ -41,8 +42,8 @@ class Message extends React.Component {
         const notSelectedItems = nextProps.notSelectedItems || prevProps.notSelectedItems;
         const isShow = nextProps.isShow || prevProps.isShow;
         this.setState({
-            selectedItems: selectedItems, 
-            notSelectedItems: notSelectedItems, 
+            selectedItems: selectedItems,
+            notSelectedItems: notSelectedItems,
             isShow: isShow,
             subject: '',
             body: ''
@@ -125,14 +126,14 @@ class Message extends React.Component {
                         </div>
                         <div className="message__body clearfix">
                             <div className="message__text-wrapper">
-                                <TextView 
-                                    onBlur={::this.handleChangeSubject} 
-                                    value={this.state.subject} 
-                                    className="message__subject" 
+                                <TextView
+                                    onBlur={::this.handleChangeSubject}
+                                    value={this.state.subject}
+                                    className="message__subject"
                                     placeholder="Тема" />
-                                <TextAreaView 
-                                    onBlur={::this.handleChangeBody} 
-                                    value={this.state.body}  
+                                <TextAreaView
+                                    onBlur={::this.handleChangeBody}
+                                    value={this.state.body}
                                     placeholder="Сообщение"/>
                             </div>
                             <div className="message__items">

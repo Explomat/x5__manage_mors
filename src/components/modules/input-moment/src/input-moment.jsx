@@ -1,20 +1,21 @@
 import cx from 'classnames';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Calendar from './calendar';
 import Time from './time';
 
 import './style/input-moment.styl';
 
 class InputMoment extends Component {
-	
+
 	constructor(props){
 		super(props);
-		
+
 		this.handleChangeDateTime = this.handleChangeDateTime.bind(this);
 		this.handleClickTab = this.handleClickTab.bind(this);
 		this.handleSave = this.handleSave.bind(this);
 		this._renderTabs = this._renderTabs.bind(this);
-		
+
 		const { displayDate, displayTime } = props;
 		this.displayDateAndTime = displayDate && displayTime;
 		this.state = {
@@ -41,10 +42,10 @@ class InputMoment extends Component {
 		const m = this.state.moment;
 		if (this.props.onSave) this.props.onSave(m);
 	}
-	
+
 	_renderTabs(){
 		const { tab } = this.state;
-		
+
 		if (this.displayDateAndTime) {
 			return (
 				<div className='options'>
@@ -67,15 +68,15 @@ class InputMoment extends Component {
 		}
 		return null;
 	}
-	
+
 	render() {
 		const { tab, moment } = this.state;
 		const { displayDate, displayTime } = this.props;
-		
+
 		return (
 			<div className='m-input-moment'>
 				{this._renderTabs()}
-				
+
 				<div className='tabs'>
 					{displayDate &&
 						<Calendar

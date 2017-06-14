@@ -1,18 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './style/search-bar.styl';
 
 class SearchBar extends React.Component {
-	
+
 	constructor(props){
 		super(props);
-		
+
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
 		this.state = {
 			value: props.value || ''
 		};
 	}
-		
+
 	componentWillReceiveProps(nextProps){
 		if (nextProps.value){
 			this.setState({ value: nextProps.value });
@@ -49,10 +50,10 @@ class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
-	value: React.PropTypes.string,
-	className: React.PropTypes.string,
-	classNameInput: React.PropTypes.string,
-	onSearch: React.PropTypes.func
+	value: PropTypes.string,
+	className: PropTypes.string,
+	classNameInput: PropTypes.string,
+	onSearch: PropTypes.func
 };
 
 export default SearchBar;

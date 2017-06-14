@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Tree from '../../tree';
 import cx from 'classnames';
 
@@ -12,7 +13,7 @@ class SelectTree extends React.Component {
 		this.handleSaveModal = this.handleSaveModal.bind(this);
 		this.handleShowModal = this.handleShowModal.bind(this);
 		this.handleCloseModal = this.handleCloseModal.bind(this);
-		
+
 		this.state = {
 			isShowModal: false
 		};
@@ -75,12 +76,12 @@ class SelectTree extends React.Component {
 }
 
 SelectTree.propTypes = {
-	modalTitle: React.PropTypes.string,
-	placeholder: React.PropTypes.string,
-	nodes: React.PropTypes.array,
-	selectedNode: React.PropTypes.object,
-	isExpand: React.PropTypes.bool,
-	isExpandAll: React.PropTypes.bool
+	modalTitle: PropTypes.string,
+	placeholder: PropTypes.string,
+	nodes: PropTypes.array,
+	selectedNode: PropTypes.object,
+	isExpand: PropTypes.bool,
+	isExpandAll: PropTypes.bool
 };
 
 export default SelectTree;

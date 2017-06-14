@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import './style/dropdown.styl';
 
@@ -44,17 +45,16 @@ class Item extends React.Component {
 class DropDown extends React.Component {
 
 	static propTypes = {
-		title: React.PropTypes.string,
-		items: React.PropTypes.array.isRequired, // [{ payload: 1, text: 'Test' },{...}]
-		// icons: React.PropTypes.array,
+		title: PropTypes.string,
+		items: PropTypes.array.isRequired, // [{ payload: 1, text: 'Test' },{...}]
 		// Количество такое же как и items. Payload должен совпадать с payload item. [ payload: 1, iconClass: icon-class ]
-		onChange: React.PropTypes.func,
-		deviders: React.PropTypes.array, // указать индексы элементов после которых вставлять разделители
-		selectedPayload: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-		className: React.PropTypes.string,
-		classNameChild: React.PropTypes.string,
-		classNameButton: React.PropTypes.string,
-		isReset: React.PropTypes.bool
+		onChange: PropTypes.func,
+		deviders: PropTypes.array, // указать индексы элементов после которых вставлять разделители
+		selectedPayload: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+		className: PropTypes.string,
+		classNameChild: PropTypes.string,
+		classNameButton: PropTypes.string,
+		isReset: PropTypes.bool
 	}
 
 	static defaultProps = {
@@ -70,7 +70,7 @@ class DropDown extends React.Component {
 	componentDidMount() {
 		document.addEventListener('click', ::this.handleBlur, true);
 	}
-	
+
 	componentWillUnmount() {
 		this._unmountComponent();
 	}
@@ -115,7 +115,7 @@ class DropDown extends React.Component {
 		});
 		return list;
 	}
-	
+
 	_stopPropagation(e){
 		if (!e || (!e.stopPropagation && !e.nativeEvent)) return;
 		e.stopPropagation();
@@ -125,7 +125,7 @@ class DropDown extends React.Component {
 	_unmountComponent(){
 		document.removeEventListener('click', ::this.handleBlur);
 	}
-	
+
 	_getSelectedItemText(items, payload){
 		if (!payload && this.props.description) return this.props.description;
 		if (!payload && Array.isArray(items) && items.length > 0) return items[0].text;

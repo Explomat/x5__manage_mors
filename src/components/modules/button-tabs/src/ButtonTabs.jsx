@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 
 import './style/button-tabs.styl';
 
@@ -13,8 +14,8 @@ const ButtonTabs = ({ className, children }) => {
 };
 
 ButtonTabs.propTypes = {
-	children: React.PropTypes.any,
-	className: React.PropTypes.string
+	children: PropTypes.any,
+	className: PropTypes.string
 };
 
 export default ButtonTabs;

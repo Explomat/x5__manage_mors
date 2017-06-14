@@ -3,8 +3,8 @@ var React = require('react');
 var FloatingList = React.createClass({
 
 	propTypes: {
-		rootHeight: React.PropTypes.number.isRequired,
-		scrollHeight: React.PropTypes.number.isRequired,
+		rootHeight: PropTypes.number.isRequired,
+		scrollHeight: PropTypes.number.isRequired,
 	}
 
 	getInitialState: function(){

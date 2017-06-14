@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import listensToClickOutside from 'react-onclickoutside';
 
@@ -41,15 +42,15 @@ class LiveSearch extends React.Component {
 	}
 
 	static propTypes = {
-		query: React.PropTypes.string.isRequired,
-		limit: React.PropTypes.number,
-		value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-		payload: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-		placeholder: React.PropTypes.string,
-		className: React.PropTypes.string,
-		onSelect: React.PropTypes.func,
-		onChange: React.PropTypes.func,
-		timeoutDelay: React.PropTypes.number
+		query: PropTypes.string.isRequired,
+		limit: PropTypes.number,
+		value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+		payload: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+		placeholder: PropTypes.string,
+		className: PropTypes.string,
+		onSelect: PropTypes.func,
+		onChange: PropTypes.func,
+		timeoutDelay: PropTypes.number
 	}
 
 	static defaultProps = {
@@ -143,12 +144,12 @@ class LiveSearch extends React.Component {
 				<div className='live-search__container'>
 					<span ref='searchBox' className='live-search__search-box'>
 						<input
-  onClick={::this.handleClick}
-  onFocus={::this.handleFocus}
-  onChange={::this.handleChange}
-  onKeyUp={::this.handleKeyUp}
-  className={inputClasses}
-  value={value}
+						  onClick={::this.handleClick}
+						  onFocus={::this.handleFocus}
+						  onChange={::this.handleChange}
+						  onKeyUp={::this.handleKeyUp}
+						  className={inputClasses}
+						  value={value}
 						/>
 						 <label className='live-search__label'>{placeholder}</label>
 						 <span className='icon-magnifying-glass live-search__caret' />

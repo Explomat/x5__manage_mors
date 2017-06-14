@@ -1,17 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './style/text-overflow.styl';
 
 class TextOverflow extends React.Component {
-	
+
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			isDisplayDots: false
 		};
 	}
-	
+
 	_changeDisplayDots(){
 		if (this.refs.overflowText.offsetHeight > this.refs.overflowParent.offsetHeight) {
 		  this.setState({ isDisplayDots: true });
@@ -39,15 +40,15 @@ class TextOverflow extends React.Component {
 				<p ref='overflowText' title={this.props.value} className='text-overflow-box__text'>{this.props.value}</p>
 				<span className={`text-overflow-box__dots ${  isDisplayDots}`}>...</span>
 			</div>
-			
+
 		);
 	}
 }
 
 TextOverflow.propsTypes = {
-	value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-	rowsCount: React.PropTypes.number,
-	className: React.PropTypes.string
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	rowsCount: PropTypes.number,
+	className: PropTypes.string
 };
 
 TextOverflow.defaultProps = {

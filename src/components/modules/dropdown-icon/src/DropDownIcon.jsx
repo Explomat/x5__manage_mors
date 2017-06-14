@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import listensToClickOutside from 'react-onclickoutside';
 
@@ -24,7 +25,7 @@ class _DropDownIcon extends React.Component {
 	componentDidMount(){
 		this.isRightBoundOverflow = this._isRightBoundOverflow();
 	}
-	
+
 	handleClickOutside() {
 		this.setState({ display: false });
 	}
@@ -35,7 +36,7 @@ class _DropDownIcon extends React.Component {
 			this.setState({ display: !this.state.display });
 		}
 	}
-	
+
 	_isRightBoundOverflow(){
 		const listContainer = this.refs.listContainer;
 		const list = this.refs.list;
@@ -85,13 +86,13 @@ class _DropDownIcon extends React.Component {
 }
 
 _DropDownIcon.PropTypes = {
-	icon: React.PropTypes.any,
-	className: React.PropTypes.string,
-	classNameList: React.PropTypes.string
+	icon: PropTypes.any,
+	className: PropTypes.string,
+	classNameList: PropTypes.string
 };
 
 _DropDownIcon.childContextTypes = {
-	onToggle: React.PropTypes.func
+	onToggle: PropTypes.func
 };
 
 _DropDownIcon.defaultProps = {

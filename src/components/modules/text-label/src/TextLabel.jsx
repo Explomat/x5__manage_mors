@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import assign from 'lodash/assign';
 
 import './style/text-label.styl';
@@ -6,16 +7,16 @@ import './style/text-label.styl';
 const TextBase = {
 
 	propTypes: {
-		name: React.PropTypes.string,
-		type: React.PropTypes.string,
-		className: React.PropTypes.string,
-		inputClassName: React.PropTypes.string,
-		focused: React.PropTypes.bool,
-		onChange: React.PropTypes.func,
-		onBlur: React.PropTypes.func,
-		onClick: React.PropTypes.func,
-		isValid: React.PropTypes.func,
-		readOnly: React.PropTypes.bool
+		name: PropTypes.string,
+		type: PropTypes.string,
+		className: PropTypes.string,
+		inputClassName: PropTypes.string,
+		focused: PropTypes.bool,
+		onChange: PropTypes.func,
+		onBlur: PropTypes.func,
+		onClick: PropTypes.func,
+		isValid: PropTypes.func,
+		readOnly: PropTypes.bool
 	},
 
 	getDefaultProps() {

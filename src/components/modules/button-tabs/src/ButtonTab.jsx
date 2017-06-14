@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 
 class ButtonTab extends React.Component {
 
@@ -26,11 +27,11 @@ class ButtonTab extends React.Component {
 }
 
 ButtonTab.propTypes = {
-	payload: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-	value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-	onClick: React.PropTypes.func,
-	selected: React.PropTypes.bool,
-	className: React.PropTypes.string
+	payload: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	onClick: PropTypes.func,
+	selected: PropTypes.bool,
+	className: PropTypes.string
 };
 
 ButtonTab.defaultProps = {

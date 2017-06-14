@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import './style/info.styl';
@@ -51,10 +52,10 @@ class Info extends React.Component {
 }
 
 Info.PropTypes = {
-	status: React.PropTypes.string,
-	message: React.PropTypes.string,
-	isShow: React.PropTypes.bool,
-	onClose: React.PropTypes.func
+	status: PropTypes.string,
+	message: PropTypes.string,
+	isShow: PropTypes.bool,
+	onClose: PropTypes.func
 };
 
 Info.defaultProps = {

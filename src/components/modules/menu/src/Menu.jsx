@@ -1,4 +1,5 @@
 var React = require('react');
+import PropTypes from 'prop-types';
 require('./style/menu.styl');
 
 function getHashIndex(hash, routes){
@@ -22,9 +23,9 @@ function getRoute(index, routes){
 var MenuItem = React.createClass({
 
     propTypes: {
-        route: React.PropTypes.string.isRequired,
-        title: React.PropTypes.string.isRequired,
-        index: React.PropTypes.number.isRequired
+        route: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        index: PropTypes.number.isRequired
     },
 
     handleChangeRoute: function(e){
@@ -45,10 +46,10 @@ var MenuItem = React.createClass({
 var MenuView = React.createClass({
 
     propTypes: {
-        defaultRoute: React.PropTypes.string.isRequired,
-        routes: React.PropTypes.array.isRequired, //[{route: '#settings', title: 'test'}, {...}, {..}]
-        onChange: React.PropTypes.func,
-        delay: React.PropTypes.number
+        defaultRoute: PropTypes.string.isRequired,
+        routes: PropTypes.array.isRequired, //[{route: '#settings', title: 'test'}, {...}, {..}]
+        onChange: PropTypes.func,
+        delay: PropTypes.number
     },
 
     getDefaultProps: function(){
@@ -117,14 +118,14 @@ var MenuView = React.createClass({
 
         var borderShift = this.getBorderShift(curHashIndex);
         var borderWidth = this.getBorderWidth(curHashIndex, prevHashIndex);
-        this.setState({ 
+        this.setState({
             borderWidth: borderWidth,
             curHashIndex: curHashIndex,
-            prevHashIndex: prevHashIndex 
-        }); 
+            prevHashIndex: prevHashIndex
+        });
 
         if (curHashIndex < prevHashIndex) {
-            this.setState({ borderShift: borderShift }); 
+            this.setState({ borderShift: borderShift });
         }
 
         var border = this.refs.border;

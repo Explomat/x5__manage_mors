@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Auth extends React.Component {
-	
+
 	_isDenied(name){
 		const componentsDenied = this.props.componentsDenied;
 		return componentsDenied.indexOf(name) !== -1;
@@ -17,8 +18,8 @@ class Auth extends React.Component {
 }
 
 Auth.propTypes = {
-	componentsDenied: React.PropTypes.array,
-	children: React.PropTypes.element
+	componentsDenied: PropTypes.array,
+	children: PropTypes.element
 };
 
 Auth.defaultProps = {

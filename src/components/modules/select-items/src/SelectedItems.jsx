@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ButtonPrimary } from '../../button';
 
 class SelectedItem extends React.Component {
@@ -35,12 +36,12 @@ class SelectedItem extends React.Component {
 }
 
 SelectedItem.propTypes = {
-	id: React.PropTypes.string,
-	data: React.PropTypes.object
+	id: PropTypes.string,
+	data: PropTypes.object
 };
 
 SelectedItem.contextTypes = {
-	onRemoveItem: React.PropTypes.func
+	onRemoveItem: PropTypes.func
 };
 
 class SelectedItems extends React.Component {
@@ -61,7 +62,7 @@ class SelectedItems extends React.Component {
 }
 
 SelectedItems.propTypes = {
-	items: React.PropTypes.array // [{id:'', cols: [{}, ...]}, ...]
+	items: PropTypes.array // [{id:'', cols: [{}, ...]}, ...]
 };
 
 SelectedItems.defaultProps = {

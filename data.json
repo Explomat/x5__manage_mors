@@ -1,0 +1,34 @@
+initial = {
+    "regions": [
+        {
+            "id": 1,
+            "title": "test",
+            "url": "/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Regions&region_id=1",
+            "isEdit": "true",
+            "mor": {
+                "id": 11,
+                "name": "MOR_11",
+                "url": "/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=11"
+            },
+            "subMor": {
+                "id": 12,
+                "name": "SUB_MOR_12",
+                "url": "/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=12"
+            }
+        }
+    ]
+}
+
+mor = {
+    "id": 11,
+    "name": "MOR_11",
+    "url": "/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=11",
+    "isEdit": "false",
+    "regions": [
+        {
+            "id": 1,
+            "title": "test",
+            "url": "/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&region_id=1"
+        }
+    ]
+}

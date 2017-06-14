@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SelectItems from '../../select-items';
 import cx from 'classnames';
 import './style/select-one-item.styl';
@@ -90,11 +91,11 @@ class SelectOneItem extends React.Component {
 }
 
 SelectOneItem.propTypes = {
-	modalTitle: React.PropTypes.string,
-	placeholder: React.PropTypes.string,
-	query: React.PropTypes.string,
-	onSave: React.PropTypes.func,
-	selectedItem: React.PropTypes.object
+	modalTitle: PropTypes.string,
+	placeholder: PropTypes.string,
+	query: PropTypes.string,
+	onSave: PropTypes.func,
+	selectedItem: PropTypes.object
 };
 
 export default SelectOneItem;

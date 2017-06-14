@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 class Portal extends Component {
-	
+
 	componentDidMount(){
 		const { node, nodeId, nodeClass } = this.props;
 		const nodeById = document.getElementById(nodeId);
@@ -25,7 +26,7 @@ class Portal extends Component {
 	componentWillUnmout() {
 		document.body.removeChild(this.node);
 	}
-	
+
 	_renderComponent(){
 		const newObj = { children: this.props.children, className: this.props.className };
 		ReactDOM.render(
@@ -35,7 +36,7 @@ class Portal extends Component {
 			this.node
 		);
 	}
-	
+
 	render() {
 		return null;
 	}

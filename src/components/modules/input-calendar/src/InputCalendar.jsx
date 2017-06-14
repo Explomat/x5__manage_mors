@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TextView } from '../../text-label';
 import InputMoment from '../../input-moment';
 import cx from 'classnames';
@@ -10,19 +11,19 @@ moment.locale('ru');
 import './style/input-calendar.styl';
 
 class InputCalendar extends Component {
-	
+
 	constructor(props){
 		super(props);
-		
+
 		this.state = {
 			isShow: false
 		};
-		
+
 		this.handleToogle = this.handleToogle.bind(this);
 		this.handleClickOutside = this.handleClickOutside.bind(this);
 		this.handleSave = this.handleSave.bind(this);
 	}
-	
+
 	handleToogle(){
 		this.setState({ isShow: !this.state.isShow });
 	}
@@ -37,12 +38,12 @@ class InputCalendar extends Component {
 			this.props.onSave(_moment.format());
 		}
 	}
-	
+
 	render() {
 		const { isShow } = this.state;
 		const { className, placeholder, date, prevMonthIcon, nextMonthIcon } = this.props;
 		const { displayDate, displayTime } = this.props;
-		
+
 		const displayDateAndTime = displayDate && displayTime;
 		const dateTimeValue = displayDateAndTime ?
 			moment(date).format('LLL') : displayDate ?

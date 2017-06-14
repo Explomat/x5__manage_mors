@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class DropDownIconItem extends React.Component {
 
@@ -22,10 +23,10 @@ export default class DropDownIconItem extends React.Component {
 }
 
 DropDownIconItem.PropTypes = {
-	payload: React.PropTypes.string,
-	text: React.PropTypes.string
+	payload: PropTypes.string,
+	text: PropTypes.string
 };
 
 DropDownIconItem.contextTypes = {
-	onToggle: React.PropTypes.func
+	onToggle: PropTypes.func
 };

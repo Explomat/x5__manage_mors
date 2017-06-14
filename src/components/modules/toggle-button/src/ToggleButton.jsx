@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import './style/toggle-button.styl';
 
@@ -28,10 +29,10 @@ class ToggleButton extends React.Component {
 }
 
 ToggleButton.propsTypes = {
-	id: React.PropTypes.oneOfType([React.PropTypes.string.isRequired, React.PropTypes.number.isRequired]),
-	checked: React.PropTypes.bool,
-	onChange: React.PropTypes.func,
-	className: React.PropTypes.string
+	id: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired]),
+	checked: PropTypes.bool,
+	onChange: PropTypes.func,
+	className: PropTypes.string
 };
 
 ToggleButton.defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ButtonPrimary } from '../../button';
 import some from 'lodash/some';
 import cx from 'classnames';
@@ -29,9 +30,9 @@ class HeaderCol extends React.Component {
 }
 
 HeaderCol.propTypes = {
-	name: React.PropTypes.string,
-	type: React.PropTypes.string,
-	onSort: React.PropTypes.func
+	name: PropTypes.string,
+	type: PropTypes.string,
+	onSort: PropTypes.func
 };
 
 HeaderCol.defaultProps = {
@@ -39,7 +40,7 @@ HeaderCol.defaultProps = {
 };
 
 HeaderCol.contextTypes = {
-	onSort: React.PropTypes.func
+	onSort: PropTypes.func
 };
 
 class Item extends React.Component {
@@ -81,8 +82,8 @@ class Item extends React.Component {
 }
 
 Item.propTypes = {
-	data: React.PropTypes.object,
-	isSelected: React.PropTypes.bool
+	data: PropTypes.object,
+	isSelected: PropTypes.bool
 };
 
 Item.defaultProps = {
@@ -91,7 +92,7 @@ Item.defaultProps = {
 };
 
 Item.contextTypes = {
-	onAddItem: React.PropTypes.func
+	onAddItem: PropTypes.func
 };
 
 class Items extends React.Component {
@@ -135,18 +136,18 @@ class Items extends React.Component {
 						</tbody>
 					</table>
 				</div>
-				
+
 				<div className={isLoadingClass} />
 			</div>
-			
+
 		);
 	}
 }
 
 Items.propTypes = {
-	headerCols: React.PropTypes.array,
-	items: React.PropTypes.array,
-	selectedItems: React.PropTypes.array
+	headerCols: PropTypes.array,
+	items: PropTypes.array,
+	selectedItems: PropTypes.array
 };
 
 Items.defaultProps = {

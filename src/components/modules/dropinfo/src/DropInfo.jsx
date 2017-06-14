@@ -1,10 +1,11 @@
-var React = require('react');
-require('./style/dropinfo.styl');
+import React = from 'react';
+import PropTypes from 'prop-types';
+import './style/dropinfo.styl';
 
 var DropInfoHeader = React.createClass({
 
 	contextTypes: {
-        parent: React.PropTypes.any
+        parent: PropTypes.any
     },
 
     handleClick: function(){
@@ -48,21 +49,21 @@ var DropInfoFooter = React.createClass({
 var DropInfo = React.createClass({
 
 	propTypes: {
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		expanded: React.PropTypes.bool,
-		onExpand: React.PropTypes.func,
-		descriptionMarkup: React.PropTypes.node,
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		classNameBlock: React.PropTypes.string,
-		additionalHeight: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+		expanded: PropTypes.bool,
+		onExpand: PropTypes.func,
+		descriptionMarkup: PropTypes.node,
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+		classNameBlock: PropTypes.string,
+		additionalHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 	},
 
 	childContextTypes: {
-		parent: React.PropTypes.any
+		parent: PropTypes.any
 	},
 
 	getChildContext: function() {
-        return { 
+        return {
         	parent: this
         };
     },

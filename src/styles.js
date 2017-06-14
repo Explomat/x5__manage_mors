@@ -1,7 +1,7 @@
 import '../style/common.styl';
 import '../style/bootstrap-grid.css';
 
-import '../style/dismissal-form.styl';
+import '../style/manage-mors.styl';
 
 /*import '../style/icon-file.css';
 import '../fonts/icon-file.eot';

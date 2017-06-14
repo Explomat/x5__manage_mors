@@ -1,11 +1,12 @@
 var React = require('react');
+import PropTypes from 'prop-types';
 require('./style/modal.styl');
 
 var ModalBoxContent = React.createClass({
 
 	propTypes: {
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		className: React.PropTypes.string
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+		className: PropTypes.string
 	},
 
 	getDefaultProps: function(){
@@ -27,14 +28,14 @@ var ModalBoxContent = React.createClass({
 var ModalBoxHeader = React.createClass({
 
 	propTypes: {
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		className: React.PropTypes.string,
-		onClose: React.PropTypes.func
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+		className: PropTypes.string,
+		onClose: PropTypes.func
 	},
 
 	contextTypes: {
-        delay: React.PropTypes.number.isRequired,
-        parent: React.PropTypes.any.isRequired
+        delay: PropTypes.number.isRequired,
+        parent: PropTypes.any.isRequired
     },
 
 	getDefaultProps: function(){
@@ -69,8 +70,8 @@ var ModalBoxHeader = React.createClass({
 var ModalBoxBody = React.createClass({
 
 	propTypes: {
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		className: React.PropTypes.string
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+		className: PropTypes.string
 	},
 
 	getDefaultProps: function(){
@@ -92,15 +93,15 @@ var ModalBoxBody = React.createClass({
 var ModalBoxFooter = React.createClass({
 
 	propTypes: {
-		disabled: React.PropTypes.bool,
-		children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.array]),
-		className: React.PropTypes.string,
-		onSave: React.PropTypes.func
+		disabled: PropTypes.bool,
+		children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+		className: PropTypes.string,
+		onSave: PropTypes.func
 	},
 
 	contextTypes: {
-        delay: React.PropTypes.number.isRequired,
-        parent: React.PropTypes.any.isRequired
+        delay: PropTypes.number.isRequired,
+        parent: PropTypes.any.isRequired
     },
 
 	getDefaultProps: function(){
@@ -136,17 +137,17 @@ var ModalBoxFooter = React.createClass({
 var ModalBox = React.createClass({
 
 	propTypes: {
-		children: React.PropTypes.element,
-		className: React.PropTypes.string,
-    	positionX: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
-    	positionY: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
-    	scale: React.PropTypes.number,
-    	delay: React.PropTypes.number
+		children: PropTypes.element,
+		className: PropTypes.string,
+    	positionX: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    	positionY: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    	scale: PropTypes.number,
+    	delay: PropTypes.number
     },
 
     childContextTypes: {
-		delay: React.PropTypes.number.isRequired,
-		parent: React.PropTypes.any
+		delay: PropTypes.number.isRequired,
+		parent: PropTypes.any
 	},
 
     getDefaultProps: function(){
@@ -161,7 +162,7 @@ var ModalBox = React.createClass({
     },
 
     getChildContext: function() {
-        return { 
+        return {
         	delay: this.props.delay,
         	parent: this
         };
@@ -192,21 +193,21 @@ var ModalBox = React.createClass({
 
 		this.refs.modal.style.transform = 'scale(' + this.props.scale +')';
 		this.refs.modal.style.transformOrigin = x + 'px '+ this.props.positionY + 'px';
-    	
+
 		setTimeout(function(){
 			this.refs.modalBox.classList.add('modal-box_color_overlay');
 		}.bind(this), delay);
     },
 
     hideParentScroll: function(){
-    	/*var _html = document.getElementsByTagName('html')[0]; 
+    	/*var _html = document.getElementsByTagName('html')[0];
     	var _body = document.getElementsByTagName('body')[0];
     	_html.style.overflowY = 'hidden';
     	_body.style.overflowY = 'hidden';*/
     },
 
     showParentScroll: function(){
-    	/*var _html = document.getElementsByTagName('html')[0]; 
+    	/*var _html = document.getElementsByTagName('html')[0];
     	var _body = document.getElementsByTagName('body')[0];
     	_html.style.overflowY = 'auto';
     	_body.style.overflowY = 'auto';*/

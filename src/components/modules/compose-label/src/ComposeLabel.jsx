@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 
 import './style/compose-label.styl';
@@ -18,12 +19,12 @@ const ComposeLabel = ({ label, className, labelClassName, prevIconClassName, pos
 };
 
 ComposeLabel.propsTypes = {
-	onIconClick: React.PropTypes.func,
-	label: React.PropTypes.string.isRequired,
-	className: React.PropTypes.string,
-	labelClassName: React.PropTypes.string,
-	prevIconClassName: React.PropTypes.string,
-	postIconClassName: React.PropTypes.string
+	onIconClick: PropTypes.func,
+	label: PropTypes.string.isRequired,
+	className: PropTypes.string,
+	labelClassName: PropTypes.string,
+	prevIconClassName: PropTypes.string,
+	postIconClassName: PropTypes.string
 };
 
 export default ComposeLabel;

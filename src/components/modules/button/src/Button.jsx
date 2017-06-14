@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 
 import './style/button.styl';
 
@@ -64,9 +65,9 @@ export const ButtonDanger = ({ className, reverse, ...props }) => {
 };
 
 ButtonDefault.propTypes = {
-	text: React.PropTypes.string,
-	onClick: React.PropTypes.func,
-	className: React.PropTypes.string,
-	disabled: React.PropTypes.bool,
-	loading: React.PropTypes.bool
+	text: PropTypes.string,
+	onClick: PropTypes.func,
+	className: PropTypes.string,
+	disabled: PropTypes.bool,
+	loading: PropTypes.bool
 };
