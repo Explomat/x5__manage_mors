@@ -1,9 +1,9 @@
 import { addServer, getAll } from  './servers';
 
 const routerId = '6426564961292851360';
-const customBaseUrl = process.env.NODE_ENV === 'production' ? '/custom_web_template.html' : 'http://study.x5.ru/custom_web_template.html';
+const customBaseUrl = '/custom_web_template.html';
 
-addServer({ id: '6426559944368726663', name: 'dismissal_form' })
+addServer({ id: '6426559944368726663', name: 'manageMors' })
 .addActions(
 	[
 		'Ping',

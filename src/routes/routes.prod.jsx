@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router'
+import { Route } from 'react-router-dom'
 import App from './containers/App'
 // import UserPage from './containers/UserPage'
 // import RepoPage from './containers/RepoPage'
@@ -12,4 +12,8 @@ import App from './containers/App'
 //             component={UserPage} />
 //     </Route>
 
-export default <Route exact path='/view_doc.html?mode=:mode/' component={App} />
+export default
+	<Switch>
+		<Route exact path='/' component={App} />
+		<Route path='/view_doc.html?mode=:mode/' component={Test} />
+	</Switch>;

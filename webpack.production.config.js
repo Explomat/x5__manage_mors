@@ -18,57 +18,85 @@ module.exports = {
     output: {
         path: project.build.remoteClientPath,
         publicPath: publicPath,
-        filename: '[hash].bundle.js',
+        filename: '[chunkhash].bundle.js',
         library: '[name]'
     },
     resolve: {
-        modulesDirectories: ['node_modules'],
-        extensions: ['', '.js', '.jsx'],
+        modules: [ path.join(__dirname, 'src'), 'node_modules' ],
+        extensions: [ '.js', '.jsx' ],
     },
     module: {
-        preLoaders: [
+        rules: [
             {
                 test: /(\.js$)|(\.jsx$)/,
-                loaders: ['eslint'],
+                loader: 'eslint-loader',
+                enforce: 'pre',
                 include: [
-                    path.resolve(__dirname, "src"),
+                    path.resolve(__dirname, 'src'),
                 ],
-            }
-        ],
-        loaders: [
+                options: {
+                	fix: true
+                }
+            },
             {
                 test: /\.woff(2)?(\?)?(\d+)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: `url-loader?name=fonts/[hash].[name].[ext]&limit=65000&mimetype=application/font-woff&publicPath=${publicPath}`
+                loader: 'url-loader',
+                options: {
+                    publicPath: publicPath,
+                    name: 'fonts/[chunkhash].[name].[ext]',
+                    limit: 10000,
+                    mimetype: 'application/font-woff'
+                }
             },
             {
                 test: /\.(ttf|eot|svg)(\?)?(\d+)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: `url-loader?name=fonts/[hash].[name].[ext]&limit=65000&publicPath=${publicPath}`
+                loader: 'url-loader',
+                options: {
+                    publicPath: publicPath,
+                    name: 'fonts/[chunkhash].[name].[ext]',
+                    limit: 10000
+                }
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract("css-loader")
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                })
             },
-
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('css!sass')
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [ 'css-loader', 'postcss-loader', 'sass-loader' ]
+                })
             },
             {
                 test: /\.styl$/,
-                loader:  ExtractTextPlugin.extract('css-loader!postcss-loader!stylus-loader')
+                loader:  ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [ 'css-loader', 'postcss-loader', 'stylus-loader' ]
+                })
             },
             {
                 test: /\.(png|jpg|gif)$/,
-                loader: `url-loader?name=images/[hash].[name].[ext]&publicPath=${publicPath}`
+                loader: 'url-loader',
+                options: {
+                    publicPath: publicPath,
+                    name: 'images/[chunkhash].[name].[ext]'
+                }
             },
             {
                 test: /\.jsx$/,
-                loaders: ['react-hot', 'babel-loader'],
+                use: [
+                    'react-hot-loader',
+                    'babel-loader'
+                ],
                 include: path.join(__dirname, 'src')
             },
             {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 include: path.join(__dirname, 'src'),
             }
         ]
@@ -85,11 +113,15 @@ module.exports = {
             name: 'react',
             filename: `[hash].react.js`
         }),
-        new ExtractTextPlugin('style/[hash].style.min.css', { allChunks: true }),
+        new ExtractTextPlugin({
+            filename: 'style/[chunkhash].style.min.css',
+            allChunks: true,
+            disable: false
+        }),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ru/),
         new webpack.optimize.UglifyJsPlugin({ mangle: false }),
         new HtmlWebpackPlugin({
-            template: 'dist/index.html',
+            template: path.join(__dirname, 'dist', 'index.html'),
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,
@@ -109,9 +141,12 @@ module.exports = {
                 integrationBuild.removeAllFiles();
             });
             this.plugin('done', function(statsData){
-                var stats = statsData.toJson();
+                fs.writeFileSync(
+                    path.join(__dirname, 'dist', 'stats.json'),
+                    statsData
+                );
 
-                if (!stats.errors.length) {
+                if (!stats.errors.length && project.build.syncSources) {
                     integrationBuild.copyServerFiles();
                     integrationSource.syncFiles();
                 }

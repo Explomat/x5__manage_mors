@@ -1,6 +1,5 @@
 import '../style/common.styl';
-import '../style/bootstrap-grid.css';
-
+import '../style/bootstrap-grid.css'; 
 import '../style/manage-mors.styl';
 
 /*import '../style/icon-file.css';

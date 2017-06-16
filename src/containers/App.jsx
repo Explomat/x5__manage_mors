@@ -21,7 +21,7 @@ class AppContainer extends Component {
 		// } = this.props;
 		return (
 			<div className='app-container'>
-				App
+				App!!!
 				<Link to='/test'>Test</Link>
 				{/* <div className='app-container__header'>
 					<h3 className='app-container__title'>{title}</h3>

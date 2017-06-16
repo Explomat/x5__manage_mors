@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Switch, Route } from 'react-router-dom';
 import App from '../containers/App';
 import Test from '../containers/Test';
 // import UserPage from './containers/UserPage'
@@ -14,7 +14,7 @@ import Test from '../containers/Test';
 //     </Route>
 
 export default
-	<div>
+	<Switch>
 		<Route exact path='/' component={App} />
 		<Route path='/test' component={Test} />
-	</div>;
+	</Switch>;

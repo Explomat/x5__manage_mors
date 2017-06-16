@@ -2,10 +2,11 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require ('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
+var project = require('./project.config');
 
 module.exports = {
     entry: {
-        main: ['webpack-dev-server/client?http://0.0.0.0:8080/', 'webpack/hot/only-dev-server', './src/index.jsx'],
+        main: ['webpack-hot-middleware/client', './src/index.jsx'],
         react: ['react']
     },
     devtool: 'source-map',
@@ -16,67 +17,81 @@ module.exports = {
         library: '[name]'
     },
     resolve: {
-        modulesDirectories: ['node_modules'],
-        extensions: ['', '.js', '.jsx'],
+        modules: [ path.join(__dirname, 'src'), 'node_modules' ],
+        extensions: [ '.js', '.jsx' ],
     },
     module: {
-        preLoaders: [
+        rules: [
             {
                 test: /(\.js$)|(\.jsx$)/,
-                loaders: ['eslint'],
+                loader: 'eslint-loader',
+                enforce: 'pre',
                 include: [
-                  path.resolve(__dirname, "src"),
+                  path.resolve(__dirname, 'src'),
                 ],
                 options: {
                 	fix: true
                 }
-            }
-        ],
-        loaders: [
+            },
             {
                 test: /\.woff(2)?(\?)?(\d+)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: "url-loader?name=fonts/[name].[ext]&limit=65000&mimetype=application/font-woff"
+                loader: 'url-loader',
+                options: {
+                    name: 'fonts/[name].[ext]',
+                    limit: 10000,
+                    mimetype: 'application/font-woff'
+                }
             },
             {
                 test: /\.(ttf|eot|svg)(\?)?(\d+)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'url-loader?name=fonts/[name].[ext]&limit=65000'
+                loader: 'url-loader',
+                options: {
+                    name: 'fonts/[name].[ext]',
+                    limit: 10000
+                }
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract("css-loader")
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                })
             },
-
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('css!postcss!sass')
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [ 'css-loader', 'postcss-loader', 'sass-loader' ]
+                })
             },
             {
                 test: /\.styl$/,
-                loader:  ExtractTextPlugin.extract('css-loader!postcss-loader!stylus-loader')
+                loader:  ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [ 'css-loader', 'postcss-loader', 'stylus-loader' ]
+                })
             },
             {
                 test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader?name=images/[name].[ext]'
+                loader: 'url-loader',
+                options: {
+                    name: 'images/[name].[ext]'
+                }
             },
             {
                 test: /\.jsx$/,
-                loaders: ['react-hot', 'babel-loader'],
+                use: [
+                    'react-hot-loader',
+                    'babel-loader'
+                ],
                 include: path.join(__dirname, 'src')
             },
             {
                 test: /\.js$/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 include: path.join(__dirname, 'src'),
             }
         ]
-    },
-
-    devServer: {
-        historyApiFallback: true,
-        host: '0.0.0.0',
-        port: 8080,
-        contentBase: './dist',
-        hot: true
     },
 
     plugins: [
@@ -91,11 +106,17 @@ module.exports = {
             name: 'react',
             filename: 'react.js'
         }),
-        new ExtractTextPlugin('style/style.min.css', { allChunks: true }),
+        new ExtractTextPlugin({
+            filename: 'style/style.min.css',
+            allChunks: true,
+            disable: false
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
+            title: project.common.title,
             inject: true,
-            template: 'dist/index.html'
+            template: path.join(__dirname, 'dist', 'index.html'),
+            filename: path.join(__dirname, 'dist', 'index.html')
         })
     ]
 }
