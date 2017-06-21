@@ -1,13 +1,23 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
+import cx from 'classnames';
 import './header.styl';
 
-const Header = ({ location }) => {
+const Header = ({ location, history }) => {
 	const { pathname } = location;
-	const back = e => e.preventDefault();
+	const isRoot = pathname === '/home/regions';
+	const back = e => {
+		e.preventDefault();
+		history.goBack();
+	};
+	const classes = cx({
+		'header': true,
+		'header--no-pad-left': !isRoot
+	});
 	return (
-		<div className='header'>
-			{pathname !== '/regions' && <a onClick={back}>Back</a>}
+		<div className={classes}>
+			{!isRoot &&
+				<a href='#' className='header__back-icon icon-left-open-big' onClick={back} />
+			}
 			<strong>Управление</strong>
 		</div>
 	);

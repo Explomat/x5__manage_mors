@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
 
-import Regions from './Regions';
 import Region from './Region';
-import Mors from './Mors';
-
-import { NavLink, Route } from 'react-router-dom';
-
-import SearchBar from '../components/modules/search-bar';
+import Home from '../components/Home';
 import Header from '../components/Header';
 
 //import { AlertDanger, AlertInfo } from '../components/modules/alert';
@@ -26,55 +22,35 @@ class AppContainer extends Component {
 		// 	infoMessage,
 		// 	children
 		// } = this.props;
-		const { match, location } = this.props;
+		const { match, location, history } = this.props;
 		return (
-			<div className='app-container container'>
-				<Header location={location}/>
-				<Route path='/regions/:regionId' component={Region} />
+			<div className='app-container'>
+				<Header location={location} history={history}/>
 
 				<div className='app-container__body'>
-					<SearchBar />
-
-					<ul className='app-container__menu'>
-						<li className='app-container__menu-item'>
-							<NavLink
-								className='app-container__link'
-								activeClassName='app-container__link--active'
-								to={`${match.url}regions`}
-							>Регионы</NavLink>
-						</li>
-						<li className='app-container__menu-item'>
-							<NavLink
-								className='app-container__link'
-								activeClassName='app-container__link--active'
-								to={`${match.url}mors`}
-							>Моры</NavLink>
-						</li>
-					</ul>
-
-					<Route path={`${match.url}regions`} component={Regions} />
-					<Route path={`${match.url}mors`} component={Mors} />
+					<Route path={`${match.url}home`} component={Home} />
+					<Route path={`${match.url}regions/:regionId`} component={Region} />
 					{/* <div className='app-container__header'>
-						<h3 className='app-container__title'>{title}</h3>
-						{errorMessage &&
-							<AlertDanger
-								text={errorMessage}
-								onClose={this.props.error.bind(this, null)}
-								className='app-container__error'
-							/>
-						}
-						{infoMessage &&
-							<AlertInfo
-								text={infoMessage}
-								onClose={this.props.info.bind(this, null)}
-								className='app-container__error'
-							/>
-						}
-					</div>
-					<div className='app-container__body'>
-						{isFetching ? <h2>Запрос доступа...</h2> : access ? children : <h1>Доступ запрещен</h1>}
-					</div>
-					<div id={dom.portalModalId} /> */}
+							<h3 className='app-container__title'>{title}</h3>
+							{errorMessage &&
+								<AlertDanger
+									text={errorMessage}
+									onClose={this.props.error.bind(this, null)}
+									className='app-container__error'
+								/>
+							}
+							{infoMessage &&
+								<AlertInfo
+									text={infoMessage}
+									onClose={this.props.info.bind(this, null)}
+									className='app-container__error'
+								/>
+							}
+						</div>
+						<div className='app-container__body'>
+							{isFetching ? <h2>Запрос доступа...</h2> : access ? children : <h1>Доступ запрещен</h1>}
+						</div>
+						<div id={dom.portalModalId} /> */}
 				</div>
 			</div>
 		);

@@ -1,28 +1,49 @@
 .app-container{
-    margin-top: 48px;
-    background-color: #fff;
-    padding: 15px;
-    box-shadow: 1px 1px 5px 0 #979797;
-    min-height: 500px;
+	background-color: #fff;
+	box-shadow: 1px 1px 5px 0 #979797;
 
-    .app-container__body {
-        margin-top: 24px;
+	.app-container__body {
+		padding: 15px;
+		background-color: #f7f7f7;
+		min-height: 470px;
+		color: #444;
+		position: relative;
 
-        .app-container__link {
-            color: rgb(111, 179, 210);
-            text-decoration: none;
+		.region-container{
+			font-size: 15px;
+			.region-container__title{
+				padding-bottom: 4px;
+				margin-bottom: 16px;
+				font-size: 1.5em;
+				color: #444;
+				word-break: break-all;
+			}
+			.region__container-fields {
+				.region-container__field-label{
+					color: rgba(0,0,0,.5);
+					clear: both;
+					float: left;
+					width: 135px;
+					margin: 0 5px 10px 0;
+				}
+				.region-container__field-value{
+					float: left;
+    				margin: 0 0 10px;
+				}
 
-            &--active {
-                text-decoration: underline;
-            }
-        }
-        .app-container__menu {
-            padding-left: 0;
+				.region-container__mor-name{
 
-            .app-container__menu-item {
-                display: inline-block;
-                margin-right: 24px;
-            }
-        }
-    }
+				}
+				.region-container__sub-mor-name{
+
+				}
+				.region-container__container__sub-mor-alternate-date{
+
+				}
+				.region-container__container__sub-mor-alternate-creater-fullname{
+
+				}
+			}
+		}
+	}
 }

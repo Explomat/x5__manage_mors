@@ -16,36 +16,30 @@ import NotFound from './containers/NotFound';
  * Given the string `/profile/:userId` and the params { userI	d: 'thomas' }
  * it returns `/profile/thomas`.
  */
-function interpolateParams(string, params = {}) {
-	return string.replace(/:([a-zA-Z]+)/g, (match, token1) => `${params[token1]}`);
-}
+// function interpolateParams(string, params = {}) {
+// 	return string.replace(/:([a-zA-Z]+)/g, (match, token1) => `${params[token1]}`);
+// }
 
 /**
  * Conditionally render a component for a base route and all of its sub routes.
  * If any sub route is valid, we render the same base component, otherwise a 404.
  */
-const RouteWithSubRoutes = (initialProps) => (
-	<Route path={initialProps.path} render={(props) => {
-		const validRoutes = [initialProps.path, ...initialProps.subRoutes]
-								.map(route => interpolateParams(route, props.match.params));
-
-		return validRoutes.includes(props.location.pathname)
-			? <initialProps.baseComponent {...props} />
-			: <NotFound location={props.location}/>;
-	}}
-	/>
-);
+// const RouteWithSubRoutes = (initialProps) => (
+// 	<Route path={initialProps.path} render={(props) => {
+// 		const validRoutes = [initialProps.path, ...initialProps.subRoutes]
+// 								.map(route => interpolateParams(route, props.match.params));
+//
+// 		return validRoutes.includes(props.location.pathname)
+// 			? <initialProps.baseComponent {...props} />
+// 			: <NotFound location={props.location}/>;
+// 	}}
+// 	/>
+// );
 
 export default
 	<Switch>
-		<Redirect exact from='/' to='/regions' />
-		<RouteWithSubRoutes
-			path='/'
-			baseComponent={App}
-			subRoutes={[
-				'/regions',
-				'/regions/:regionId',
-				'/mors'
-			]}
-		/>
+		<Redirect exact from='/' to='/home/regions' />
+		<Redirect exact from='/home' to='/home/regions' />
+		<Route path='/' component={App}/>
+		<Route component={NotFound} />
 	</Switch>;

@@ -13,23 +13,18 @@ const regions = [
 		'id': 1,
 		'title': 'Регион Измайловский',
 		'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Regions&region_id=1',
+		'isEdit': true,
 		'mor': {
 			'id': 11,
 			'name': 'MOR_11',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=11'
-		},
-		'subMor': {
-			'id': 12,
-			'name': 'SUB_MOR_12',
-			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=12',
-			'alternate_date': '14.06.2017',
-			'alternate_creater_fullname': 'MOR_11'
 		}
 	},
 	{
 		'id': 2,
 		'title': 'Регион Нижний Новгород 1',
 		'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Regions&region_id=2',
+		'isEdit': true,
 		'mor': {
 			'id': 13,
 			'name': 'MOR_13',
@@ -47,6 +42,7 @@ const regions = [
 		'id': 3,
 		'title': 'Регион Тюмень',
 		'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Regions&region_id=3',
+		'isEdit': false,
 		'mor': {
 			'id': 15,
 			'name': 'MOR_15',
@@ -64,6 +60,7 @@ const regions = [
 		'id': 4,
 		'title': 'Регион Щелковский',
 		'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Regions&region_id=4',
+		'isEdit': false,
 		'mor': {
 			'id': 17,
 			'name': 'MOR_17',
@@ -81,6 +78,7 @@ const regions = [
 		'id': 5,
 		'title': 'Регион Ярославский',
 		'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Regions&region_id=5',
+		'isEdit': false,
 		'mor': {
 			'id': 19,
 			'name': 'MOR_19',

@@ -20,21 +20,45 @@ class RegionContainer extends Component {
 	}
 
 	render(){
-		const { title, mor, subMor } = this.props;
+		const { isFetching, title, mor, subMor } = this.props;
 		return (
-			<div className='region'>
-				<div className='region__title'>{title}</div>
-				{mor && <div>{mor.name}</div>}
-				{subMor && <div>{subMor.name}</div>}
-				{subMor && <div>{subMor.alternate_date}</div>}
-				{subMor && <div>{subMor.alternate_creater_fullname}</div>}
+			isFetching ? <div className='overlay-loading overlay-loading--show'/> :
+			<div className='region-container'>
+				<div className='region-container__title'>{title}</div>
+				<div className='region__container-fields'>
+					{mor &&
+						<div className='region-container__mor-name'>
+							<span className='region-container__field-label'>МОР</span>
+							<span className='region-container__field-value'>{mor.name}</span>
+						</div>
+					}
+					{subMor &&
+						<div className='region-container__sub-mor-name'>
+							<span className='region-container__field-label'>Заместитель</span>
+							<span className='region-container__field-value'>{subMor.name}</span>
+						</div>
+					}
+					{subMor &&
+						<div className='region-container__container__sub-mor-alternate-date'>
+							<span className='region-container__field-label'>Срок замены (до)</span>
+							<span className='region-container__field-value'>{subMor.alternate_date}</span>
+						</div>
+					}
+					{subMor &&
+						<div className='region-container__container__sub-mor-alternate-creater-fullname'>
+							<span className='region-container__field-label'>Замену поставил</span>
+							<span className='region-container__field-value'>{subMor.alternate_creater_fullname}	</span>
+
+						</div>
+					}
+				</div>
 			</div>
+
 		);
 	}
 }
 
-function mapStateToProps(state, ownProps) {
-	console.log(ownProps);
+function mapStateToProps(state) {
 	return { ...state.region };
 }
 
