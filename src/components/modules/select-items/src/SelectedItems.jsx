@@ -44,22 +44,13 @@ SelectedItem.contextTypes = {
 	onRemoveItem: PropTypes.func
 };
 
-class SelectedItems extends React.Component {
-
-	getItemsMarkup(){
-		return this.props.items.map((item, index) => {
-			return <SelectedItem key={index} {...item}/>;
-		});
-	}
-
-	render() {
-		return (
-			<div className='selected-items'>
-				{this.getItemsMarkup()}
-			</div>
-		);
-	}
-}
+const SelectedItems = ({ items }) => {
+	return (
+		<div className='selected-items'>
+			{items.map((item, index) => <SelectedItem key={index} {...item}/>)}
+		</div>
+	);
+};
 
 SelectedItems.propTypes = {
 	items: PropTypes.array // [{id:'', cols: [{}, ...]}, ...]

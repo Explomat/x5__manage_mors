@@ -4,7 +4,7 @@ import SelectedItems from './SelectedItems';
 import Items from './Items';
 import Filters from './Filters';
 import { ButtonPrimary } from '../../button';
-import { some } from 'lodash';
+import some from 'lodash/some';
 import cx from 'classnames';
 import './style/select-items.styl';
 
@@ -35,9 +35,9 @@ class SelectItems extends React.Component {
 		this._castType = this._castType.bind(this);
 		this.handleCloseError = this.handleCloseError.bind(this);
 		this.state = {
-			headerCols: props.headerCols || [],
-			items: props.items || [],
-			selectedItems: props.selectedItems || [],
+			headerCols: props.headerCols,
+			items: props.items,
+			selectedItems: props.selectedItems,
 			maxSelectedItems: Number.MAX_VALUE,
 			search: '',
 			page: 1,
@@ -49,12 +49,12 @@ class SelectItems extends React.Component {
 	}
 
 	getChildContext(){
-    	return {
-    		onSort: this.onSort,
-    		onAddItem: this.onAddItem,
-    		onRemoveItem: this.onRemoveItem
-    	};
-  	}
+		return {
+			onSort: this.onSort,
+			onAddItem: this.onAddItem,
+			onRemoveItem: this.onRemoveItem
+		};
+	}
 
 	componentWillReceiveProps(nextProps){
 		this.setState({
@@ -64,13 +64,37 @@ class SelectItems extends React.Component {
 		});
 	}
 
+	handleSave(){
+		if (this.props.onSave){
+			this.props.onSave(this.state.selectedItems);
+		}
+	}
+
+	handleChangeSearch(search){
+		this.setState({ search, isLoading: true, page: 1 });
+		if (this.props.onChange){
+			this.props.onChange(search, this.state.page);
+		}
+	}
+
+	handleChangePage(page){
+		this.setState({ page, isLoading: true });
+		if (this.props.onChange){
+			this.props.onChange(this.state.search, page);
+		}
+	}
+
+	handleCloseError(){
+		this.setState({ error: '', isShowError: false });
+	}
+
 	_castType(val, type){
-		function isInteger(val) {
-			return isNaN(parseInt(val)) === false;
+		function isInteger(_val) {
+			return isNaN(parseInt(_val, 10)) === false;
 		}
 
-		function isDate(val){
-			return Date.parse(val) !== isNaN(val);
+		function isDate(_val){
+			return Date.parse(_val) !== isNaN(_val);
 		}
 
 		if (val === undefined || val === null || !(type in this.types)) return val.toString();
@@ -103,9 +127,9 @@ class SelectItems extends React.Component {
 	}
 
 	onSort(index, isAscending){
-		function getFieldByIndex(data, index){
+		function getFieldByIndex(data, i){
 			const keys = Object.keys(data).filter((key, _index) => {
-				return index === _index;
+				return i === _index;
 			});
 			return keys.length > 0 ? data[keys[0]] : null;
 		}
@@ -143,30 +167,6 @@ class SelectItems extends React.Component {
 			return r.id !== id;
 		});
 		this.setState({ selectedItems: _selectedItems });
-	}
-
-	handleSave(){
-		if (this.props.onSave){
-			this.props.onSave(this.state.selectedItems);
-		}
-	}
-
-	handleChangeSearch(search){
-		this.setState({ search, isLoading: true, page: 1 });
-		if (this.props.onChange){
-			this.props.onChange(search, this.state.page);
-		}
-	}
-
-	handleChangePage(page){
-		this.setState({ page, isLoading: true });
-		if (this.props.onChange){
-			this.props.onChange(this.state.search, page);
-		}
-	}
-
-	handleCloseError(){
-		this.setState({ error: '', isShowError: false });
 	}
 
 	render() {
@@ -221,7 +221,7 @@ SelectItems.childContextTypes = {
 	onSort: PropTypes.func,
 	onAddItem: PropTypes.func,
 	onRemoveItem: PropTypes.func
-}
+};
 
 SelectItems.propTypes = {
 	items: PropTypes.array,
@@ -231,11 +231,14 @@ SelectItems.propTypes = {
 	onClose: PropTypes.func,
 	onSave: PropTypes.func,
 	onChange: PropTypes.func
-}
+};
 
 SelectItems.defaultProps = {
+	headerCols: [],
+	items: [],
+	selectedItems: [],
 	title: '',
 	maxSelectedItems: Number.MAX_VALUE
-}
+};
 
 export default SelectItems;
