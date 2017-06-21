@@ -1,29 +1,14 @@
 import { combineReducers } from 'redux';
 import app from './app';
-import { routerReducer as router } from 'react-router-redux';
-import assessment from './assessment';
-import categories from './categories';
-import categoryData from './categoryData';
-import halves from './halves';
-import months from './months';
-import pas from './pas';
-import tasks from './tasks';
-import tests from './tests';
+import regions from './regions';
+import region from './region';
+//import pas from './pas';
 
-
-const rootReducer = combineReducers({
-	router,
+export default combineReducers({
 	app,
-	assessment,
-	categories,
-	categoryData,
-	halves,
-	months,
-	pas,
-	tasks,
-	tests
+	regions,
+	region
 });
-export default rootReducer;
 
 /*export default function reducer(state = {}, action) {
 	return {

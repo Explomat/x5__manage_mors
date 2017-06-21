@@ -1,14 +1,14 @@
 //import { get } from '../utils/ajax';
 //import { url } from '../config';
-import constants from '../constants';
+import appConstants from '../constants/appConstants';
 
 export function getAccess(){
 	return dispatch => {
-		dispatch({ type: constants.APP_GET_ACCESS });
-		
+		dispatch({ type: appConstants.APP_GET_ACCESS });
+
 		setTimeout(() => {
 			dispatch({
-				type: constants.APP_GET_ACCESS_SUCCESS,
+				type: appConstants.APP_GET_ACCESS_SUCCESS,
 				response: { access: true }
 			});
 		}, 300);
@@ -28,16 +28,16 @@ export function getAccess(){
 	};
 }
 
-export function error(err){
+export function error(errorMessage){
 	return {
-		type: constants.APP_ERROR_MESSAGE,
-		errorMessage: err
+		type: appConstants.APP_ERROR_MESSAGE,
+		errorMessage
 	};
 }
 
-export function info(inf){
+export function info(infoMessage){
 	return {
-		type: constants.APP_INFO_MESSAGE,
-		infoMessage: inf
+		type: appConstants.APP_INFO_MESSAGE,
+		infoMessage
 	};
 }

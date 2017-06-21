@@ -1,2 +1,2 @@
-export * from './appCreators';
-export * from './assessmentCreators';
+export * as appCreators from './appCreators';
+export * as regionsCreators from './regionsCreators';
