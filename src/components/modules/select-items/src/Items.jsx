@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ButtonPrimary } from '../../button';
 import some from 'lodash/some';
 import cx from 'classnames';
 
@@ -57,21 +56,17 @@ class Item extends React.Component {
 	}
 
 	render(){
-		const data = this.props.data;
-		const classesButton = cx({
-			'body-row__add-btn': true,
-			'body-row__add-btn--selected': this.props.isSelected
-		});
+		const { data, isSelected } = this.props;
 		const classesIcon = cx({
-			'icon-plus': !this.props.isSelected,
-			'icon-check': this.props.isSelected
+			'icon-plus': !isSelected,
+			'icon-ok-1': isSelected,
+			'body-row__icon': true,
+			'body-row__icon--selected': isSelected
 		});
 		return (
 			<tr className='body-row' onClick={this.handleAddItem}>
 				<td>
-					<ButtonPrimary className={classesButton} reverse>
-						<i className={classesIcon} />
-					</ButtonPrimary>
+					<i className={classesIcon} />
 				</td>
 				{Object.keys(data).map((c, index) => {
 					return <td key={index} className='body-row__col oneline'>{data[c]}</td>;
@@ -98,17 +93,22 @@ Item.contextTypes = {
 class Items extends React.Component {
 
 	getColsMarkup(){
-		const headerCols = this.props.headerCols;
-		const markUpCols = [ <th key={0} /> ];
-		headerCols.forEach((c, index) => {
-			markUpCols.push(<HeaderCol key={index + 1} name={c.name} index={index}/>);
-		});
-		return markUpCols;
+		// const headerCols = this.props.headerCols;
+		// const markUpCols = [ <th key={0} /> ];
+		// headerCols.forEach((c, index) => {
+		// 	markUpCols.push(<HeaderCol key={index + 1} name={c.name} index={index}/>);
+		// });
+		// return markUpCols;
+
+		const { headerCols } = this.props;
+		return headerCols.reduce((f, s, index) => {
+			f.push(<HeaderCol key={index + 1} name={s.name} index={index}/>);
+			return f;
+		},  [ <th key={0} /> ]);
 	}
 
 	getRowsMarkUp(){
-		const items = this.props.items;
-		const selectedItems = this.props.selectedItems;
+		const { items, selectedItems } = this.props;
 		return items.map((i, index) => {
 			const isSelected = some(selectedItems, { id: i.id });
 			return <Item key={index} {...i} isSelected={isSelected}/>;

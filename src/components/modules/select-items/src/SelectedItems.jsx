@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ButtonPrimary } from '../../button';
 
 class SelectedItem extends React.Component {
 
@@ -26,9 +25,7 @@ class SelectedItem extends React.Component {
 	render(){
 		return (
 			<div className='item' onClick={this.handleRemoveItem}>
-				<ButtonPrimary className='item__button' reverse>
-					<i className='icon-minus' />
-				</ButtonPrimary>
+				<i className='icon-minus' />
 				<label className='item__text oneline'>{this._getFirstField()}</label>
 			</div>
 		);

@@ -4,6 +4,7 @@ import SelectedItems from './SelectedItems';
 import Items from './Items';
 import Filters from './Filters';
 import { ButtonPrimary } from '../../button';
+import numDeclension from '../../../../utils/numDeclension';
 import some from 'lodash/some';
 import cx from 'classnames';
 import './style/select-items.styl';
@@ -31,6 +32,7 @@ class SelectItems extends React.Component {
 		this.handleSave = this.handleSave.bind(this);
 		this.handleChangeSearch = this.handleChangeSearch.bind(this);
 		this.handleChangePage = this.handleChangePage.bind(this);
+		this.handleToggleSelectedItems = this.handleToggleSelectedItems.bind(this);
 		this._setData = this._setData.bind(this);
 		this._castType = this._castType.bind(this);
 		this.handleCloseError = this.handleCloseError.bind(this);
@@ -38,11 +40,11 @@ class SelectItems extends React.Component {
 			headerCols: props.headerCols,
 			items: props.items,
 			selectedItems: props.selectedItems,
-			maxSelectedItems: Number.MAX_VALUE,
 			search: '',
 			page: 1,
 			pagesCount: 1,
 			isLoading: true,
+			isDisplaySelectedItems: false,
 			error: '',
 			isShowError: false
 		};
@@ -84,6 +86,11 @@ class SelectItems extends React.Component {
 		}
 	}
 
+	handleToggleSelectedItems(e){
+		e.preventDefault();
+		this.setState({ isDisplaySelectedItems: !this.state.isDisplaySelectedItems });
+	}
+
 	handleCloseError(){
 		this.setState({ error: '', isShowError: false });
 	}
@@ -115,15 +122,33 @@ class SelectItems extends React.Component {
 	}
 
 	_setData(data){
+		// const self = this;
+		// if (!data || !data.items || !data.headerCols) return;
+		// data.items = data.items.map(item => {
+		// 	Object.keys(item.data).forEach((col, index) => {
+		// 		item.data[col] = self._castType(item.data[col], data.headerCols[index].type);
+		// 	});
+		// 	return item;
+		// });
+		// this.setState({
+		// 	items: data.items,
+		// 	headerCols: data.headerCols,
+		// 	pagesCount: data.pagesCount,
+		// 	isLoading: false
+		// });
+
 		const self = this;
 		if (!data || !data.items || !data.headerCols) return;
-		data.items = data.items.map(item => {
+		const items = data.items.map(item => {
 			Object.keys(item.data).forEach((col, index) => {
 				item.data[col] = self._castType(item.data[col], data.headerCols[index].type);
 			});
 			return item;
 		});
-		this.setState({ items: data.items, headerCols: data.headerCols, pagesCount: data.pagesCount, isLoading: false });
+		this.setState({
+			...items,
+			isLoading: false
+		});
 	}
 
 	onSort(index, isAscending){
@@ -148,30 +173,36 @@ class SelectItems extends React.Component {
 	}
 
 	onAddItem(item){
-		const _items = this.state.items;
-		const _selectedItems = this.state.selectedItems;
+		// const _items = this.state.items;
+		// const _selectedItems = this.state.selectedItems;
+		//
+		// if (_selectedItems.length >= this.props.maxSelectedItems){
+		// 	this.setState({ error: this.errors.MAX_SELECTED_ITEMS, isShowError: true });
+		// 	return;
+		// }
+		// if (some(_selectedItems, { id: item.id })) return;
+		// _selectedItems.push({ ...item });
+		// this.setState({ items: _items, selectedItems: _selectedItems });
 
-		if (_selectedItems.length >= this.props.maxSelectedItems){
+		const { selectedItems } = this.state;
+		if (selectedItems.length >= this.props.maxSelectedItems){
 			this.setState({ error: this.errors.MAX_SELECTED_ITEMS, isShowError: true });
 			return;
 		}
-		if (some(_selectedItems, { id: item.id })) return;
-		_selectedItems.push({ ...item });
-		this.setState({ items: _items, selectedItems: _selectedItems });
+		if (some(selectedItems, { id: item.id })) return;
+		this.setState({ selectedItems: selectedItems.concat([ item ]) });
 	}
 
 	onRemoveItem(id){
-		let _selectedItems = this.state.selectedItems;
-
-		_selectedItems = _selectedItems.filter(r => {
-			return r.id !== id;
+		const { selectedItems } = this.state;
+		this.setState({
+			selectedItems: selectedItems.filter(si => si.id !== id)
 		});
-		this.setState({ selectedItems: _selectedItems });
 	}
 
 	render() {
 		const { title, headerCols, pagesCount } = this.props;
-		const { isShowError, isLoading, error, page, search, items, selectedItems } = this.state;
+		const { isShowError, isLoading, error, page, search, items, selectedItems, isDisplaySelectedItems } = this.state;
 		const errorClass = cx({
 			'alert': true,
 			'alert--info': true,
@@ -195,13 +226,21 @@ class SelectItems extends React.Component {
 								onSearch={this.handleChangeSearch}
 								onPage={this.handleChangePage}
 							/>
+							<div className='select-items__selected-count'>
+								<a href='#' onClick={this.handleToggleSelectedItems}>
+									{`Выбрано ${selectedItems.length}
+										${numDeclension(selectedItems.length, 'элемент', 'элемента', 'элементов')}`
+									}
+								</a>
+
+							</div>
+							{isDisplaySelectedItems && <SelectedItems items={selectedItems} />}
 							<Items
 								items={items}
 								selectedItems={selectedItems}
 								headerCols={headerCols}
 								isLoading={isLoading}
 							/>
-							<SelectedItems items={selectedItems} />
 						</div>
 						<div className='select-item__footer'>
 							<div className={errorClass}>
