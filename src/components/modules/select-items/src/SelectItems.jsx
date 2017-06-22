@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { AlertInfo } from '../../alert';
 import SelectedItems from './SelectedItems';
+import { Panel, PanelTitle, PanelHeader, PanelBody, PanelFooter } from '../../panel';
 import Items from './Items';
 import Filters from './Filters';
 import { ButtonPrimary } from '../../button';
@@ -209,40 +210,50 @@ class SelectItems extends React.Component {
 		const selectedItemsLen = selectedItems.length;
 		return (
 			<div className='select-items'>
-				<div className='select-item__header'>
-					<button type='button' className='close-button' onClick={this.props.onClose}>&times;</button>
-					<span>{title}</span>
-				</div>
-				<div className='select-item__body clearfix'>
-					<Filters
-						page={page}
-						pagesCount={pagesCount}
-						search={search}
-						onSearch={this.handleChangeSearch}
-						onPage={this.handleChangePage}
-					/>
-					{selectedItemsLen > 0 &&
-						<div className='select-items__selected-count'>
-							<a href='#' onClick={this.handleToggleSelectedItems}>
-								{`${numDeclension(selectedItemsLen, 'Выбран', 'Выбрано', 'Выбраны')} ${selectedItemsLen}
-									${numDeclension(selectedItemsLen, 'элемент', 'элемента', 'элементов')}`
-								}
-							</a>
-							&nbsp;<span className={cx('caret', { 'caret--rotate': isDisplaySelectedItems })} />
+				<Panel>
+					<PanelHeader>
+						<PanelTitle>
+							<div className='select-item__header'>
+								<button type='button' className='close-button' onClick={this.props.onClose}>&times;</button>
+							</div>
+							{title}
+						</PanelTitle>
+					</PanelHeader>
+					<PanelBody>
+						<div className='select-item__body clearfix'>
+							<Filters
+								page={page}
+								pagesCount={pagesCount}
+								search={search}
+								onSearch={this.handleChangeSearch}
+								onPage={this.handleChangePage}
+							/>
+							{selectedItemsLen > 0 &&
+								<div className='select-items__selected-count'>
+									<a href='#' onClick={this.handleToggleSelectedItems}>
+										{`${numDeclension(selectedItemsLen, 'Выбран', 'Выбрано', 'Выбраны')} ${selectedItemsLen}
+											${numDeclension(selectedItemsLen, 'элемент', 'элемента', 'элементов')}`
+										}
+									</a>
+									&nbsp;<span className={cx('caret', { 'caret--rotate': isDisplaySelectedItems })} />
+								</div>
+							}
+							{isDisplaySelectedItems && selectedItemsLen > 0 && <SelectedItems items={selectedItems} />}
+							<Items
+								items={items}
+								selectedItems={selectedItems}
+								headerCols={headerCols}
+								isLoading={isLoading}
+							/>
 						</div>
-					}
-					{isDisplaySelectedItems && selectedItemsLen > 0 && <SelectedItems items={selectedItems} />}
-					<Items
-						items={items}
-						selectedItems={selectedItems}
-						headerCols={headerCols}
-						isLoading={isLoading}
-					/>
-				</div>
-				<div className='select-item__footer'>
-					{error && <AlertInfo text={error} />}
-					<ButtonPrimary onClick={this.handleSave} text='Сохранить' />
-				</div>
+					</PanelBody>
+					<PanelFooter>
+						<div className='select-item__footer'>
+							{error && <AlertInfo text={error} />}
+							<ButtonPrimary onClick={this.handleSave} text='Сохранить' />
+						</div>
+					</PanelFooter>
+				</Panel>
 			</div>
 		);
 	}
@@ -255,20 +266,20 @@ SelectItems.childContextTypes = {
 };
 
 SelectItems.propTypes = {
+	title: PropTypes.string,
 	items: PropTypes.array,
 	selectedItems: PropTypes.array,
 	maxSelectedItems: PropTypes.number,
-	title: PropTypes.string,
 	onClose: PropTypes.func,
 	onSave: PropTypes.func,
 	onChange: PropTypes.func
 };
 
 SelectItems.defaultProps = {
+	title: 'Подтвердите действие',
 	headerCols: [],
 	items: [],
 	selectedItems: [],
-	title: '',
 	maxSelectedItems: Number.MAX_VALUE
 };
 
