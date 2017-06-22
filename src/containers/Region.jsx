@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
 import SelectItems from '../components/modules/select-items';
-import { regionsCreators } from '../actions';
+import { regionsCreators, morsCreators, subMorsCreators } from '../actions';
 //import PropTypes from 'prop-types';
 //import { Link } from 'react-router-dom';
 //import { AlertDanger, AlertInfo } from '../components/modules/alert';
 import { connect } from 'react-redux';
 //import { dom } from '../config';
 //import cx from 'classnames';
-
-const headerCols = [ { name: 'a', type: 'integer' } ];
-const testDataItems = [
-	{ id: '1', data: { fullname: '1' } },
-	{ id: '2', data: { fullname: '2' } },
-	{ id: '3', data: { fullname: '3' } },
-	{ id: '4', data: { fullname: '4' } }
-];
 
 class RegionContainer extends Component {
 
@@ -41,6 +33,7 @@ class RegionContainer extends Component {
 
 	handleDisplayMorModal(){
 		this.setState({ isDisplayMorModal: true });
+		this.props.getMors();
 	}
 
 	handleDisplaySubMorModal(){
@@ -48,13 +41,13 @@ class RegionContainer extends Component {
 	}
 
 	render(){
-		const { isFetching, title, mor, subMor } = this.props;
+		const { isFetching, title, mor, subMor, mors, subMors } = this.props;
 		const { isDisplayMorModal, isDisplaySubMorModal } = this.state;
 		return (
 			isFetching ? <div className='overlay-loading overlay-loading--show'/> :
 			<div className='region-container'>
 				<div className='region-container__title'>{title}</div>
-				<div className='region__container-fields'>
+				<div className='region__container-fields clearfix'>
 					{mor &&
 						<div className='region-container__mor-name'>
 							<span className='region-container__field-label'>МОР</span>
@@ -99,8 +92,10 @@ class RegionContainer extends Component {
 						</div>
 					}
 				</div>
-				{isDisplayMorModal && <SelectItems items={testDataItems} headerCols={headerCols}/>}
-				{isDisplaySubMorModal && <SelectItems />}
+				{isDisplayMorModal &&
+					<SelectItems {...mors}/>}
+				{isDisplaySubMorModal &&
+					<SelectItems {...subMors}/>}
 			</div>
 
 		);
@@ -108,7 +103,11 @@ class RegionContainer extends Component {
 }
 
 function mapStateToProps(state) {
-	return { ...state.region };
+	return {
+		...state.region,
+		mors: state.mors,
+		subMors: state.subMors
+	};
 }
 
-export default connect(mapStateToProps, regionsCreators)(RegionContainer);
+export default connect(mapStateToProps, { ...regionsCreators, ...morsCreators, ...subMorsCreators })(RegionContainer);

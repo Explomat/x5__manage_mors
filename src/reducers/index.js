@@ -2,12 +2,16 @@ import { combineReducers } from 'redux';
 import app from './app';
 import regions from './regions';
 import region from './region';
+import mors from './mors';
+import subMors from './subMors';
 //import pas from './pas';
 
 export default combineReducers({
 	app,
 	regions,
-	region
+	region,
+	mors,
+	subMors
 });
 
 /*export default function reducer(state = {}, action) {

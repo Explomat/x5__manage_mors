@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { AlertInfo } from '../../alert';
 import SelectedItems from './SelectedItems';
 import Items from './Items';
 import Filters from './Filters';
@@ -9,15 +10,19 @@ import some from 'lodash/some';
 import cx from 'classnames';
 import './style/select-items.styl';
 
-/* var items = {
+/*
 	headerCols: [{ name: 'a', type: 'integer' }],
 	items: [
 		{ id: '1', data: {fullname: '1'} },
 		{ id: '2', data: {fullname: '2'} },
 		{ id: '3', data: {fullname: '3'} },
 		{ id: '4', data: {fullname: '4'} }
+	],
+	selectedItems: [
+		{ id: '1', data: {fullname: '1'} },
+		{ id: '2', data: {fullname: '2'} },
 	]
-}*/
+*/
 
 class SelectItems extends React.Component {
 
@@ -42,11 +47,9 @@ class SelectItems extends React.Component {
 			selectedItems: props.selectedItems,
 			search: '',
 			page: 1,
-			pagesCount: 1,
 			isLoading: true,
 			isDisplaySelectedItems: false,
-			error: '',
-			isShowError: false
+			error: ''
 		};
 	}
 
@@ -202,54 +205,43 @@ class SelectItems extends React.Component {
 
 	render() {
 		const { title, headerCols, pagesCount } = this.props;
-		const { isShowError, isLoading, error, page, search, items, selectedItems, isDisplaySelectedItems } = this.state;
-		const errorClass = cx({
-			'alert': true,
-			'alert--info': true,
-			'select-item__error': true,
-			'select-item__error--show': isShowError
-		});
-
+		const { isLoading, error, page, search, items, selectedItems, isDisplaySelectedItems } = this.state;
+		const selectedItemsLen = selectedItems.length;
 		return (
 			<div className='select-items'>
-				<div className='select-items__modal-box'>
-					<div className='select-items__content'>
-						<div className='select-item__header'>
-							<button type='button' className='close-button' onClick={this.props.onClose}>&times;</button>
-							<span>{title}</span>
+				<div className='select-item__header'>
+					<button type='button' className='close-button' onClick={this.props.onClose}>&times;</button>
+					<span>{title}</span>
+				</div>
+				<div className='select-item__body clearfix'>
+					<Filters
+						page={page}
+						pagesCount={pagesCount}
+						search={search}
+						onSearch={this.handleChangeSearch}
+						onPage={this.handleChangePage}
+					/>
+					{selectedItemsLen > 0 &&
+						<div className='select-items__selected-count'>
+							<a href='#' onClick={this.handleToggleSelectedItems}>
+								{`${numDeclension(selectedItemsLen, 'Выбран', 'Выбрано', 'Выбраны')} ${selectedItemsLen}
+									${numDeclension(selectedItemsLen, 'элемент', 'элемента', 'элементов')}`
+								}
+							</a>
+							&nbsp;<span className={cx('caret', { 'caret--rotate': isDisplaySelectedItems })} />
 						</div>
-						<div className='select-item__body clearfix'>
-							<Filters
-								page={page}
-								pagesCount={pagesCount}
-								search={search}
-								onSearch={this.handleChangeSearch}
-								onPage={this.handleChangePage}
-							/>
-							<div className='select-items__selected-count'>
-								<a href='#' onClick={this.handleToggleSelectedItems}>
-									{`Выбрано ${selectedItems.length}
-										${numDeclension(selectedItems.length, 'элемент', 'элемента', 'элементов')}`
-									}
-								</a>
-
-							</div>
-							{isDisplaySelectedItems && <SelectedItems items={selectedItems} />}
-							<Items
-								items={items}
-								selectedItems={selectedItems}
-								headerCols={headerCols}
-								isLoading={isLoading}
-							/>
-						</div>
-						<div className='select-item__footer'>
-							<div className={errorClass}>
-								<button type='button' className='close-button' onClick={this.handleCloseError}>&times;</button>
-								<span>{error}</span>
-							</div>
-							<ButtonPrimary onClick={this.handleSave} text='Сохранить' />
-						</div>
-					</div>
+					}
+					{isDisplaySelectedItems && selectedItemsLen > 0 && <SelectedItems items={selectedItems} />}
+					<Items
+						items={items}
+						selectedItems={selectedItems}
+						headerCols={headerCols}
+						isLoading={isLoading}
+					/>
+				</div>
+				<div className='select-item__footer'>
+					{error && <AlertInfo text={error} />}
+					<ButtonPrimary onClick={this.handleSave} text='Сохранить' />
 				</div>
 			</div>
 		);

@@ -19,15 +19,15 @@ class Home extends Component {
 					<ul className='home__menu'>
 						<li className='home__menu-item'>
 							<NavLink
-								className='home__link'
-								activeClassName='home__link--active'
+								className='link'
+								activeClassName='link--active'
 								to={`${match.url}/regions`}
 							>Регионы</NavLink>
 						</li>
 						<li className='home__menu-item'>
 							<NavLink
-								className='home__link'
-								activeClassName='home__link--active'
+								className='link'
+								activeClassName='link--active'
 								to={`${match.url}/mors`}
 							>Моры</NavLink>
 						</li>

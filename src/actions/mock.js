@@ -94,6 +94,29 @@ const regions = [
 	}
 ];
 
+const collaborators = {
+	headerCols: [ { name: 'name', type: 'integer' } ],
+	items: [
+		{ id: '1', data: { fullname: '1' } },
+		{ id: '2', data: { fullname: '2' } },
+		{ id: '3', data: { fullname: '3' } },
+		{ id: '4', data: { fullname: '4' } },
+		{ id: '5', data: { fullname: '1' } },
+		{ id: '6', data: { fullname: '2' } },
+		{ id: '7', data: { fullname: '3' } },
+		{ id: '8', data: { fullname: '4' } },
+		{ id: '9', data: { fullname: '1' } },
+		{ id: '10', data: { fullname: '2' } },
+		{ id: '11', data: { fullname: '3' } },
+		{ id: '12', data: { fullname: '4' } },
+		{ id: '13', data: { fullname: '1' } },
+		{ id: '14', data: { fullname: '2' } },
+		{ id: '15', data: { fullname: '3' } }
+	],
+	page: 1,
+	pagesCount: 2
+};
+
 export function getMockRegions(){
 	return {
 		regions,
@@ -109,4 +132,8 @@ export function getMockRegion(regionId){
 	return {
 		...regions.filter(r => r.id.toString() === regionId.toString())[0]
 	};
+}
+
+export function getMockCollaborators(){
+	return { ...collaborators };
 }

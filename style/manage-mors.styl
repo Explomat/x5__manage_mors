@@ -1,13 +1,26 @@
 .app-container{
-	background-color: #fff;
+	width: 100vw;
+	height: 100vh;
+	background-color: #f7f7f7;
 	box-shadow: 1px 1px 5px 0 #979797;
+	position: relative;
+
+	.link {
+		color: #077fcc;
+	    text-decoration: none;
+	    display: inline-block;
+	    vertical-align: middle;
+	    font-weight: 700;
+
+		&--active {
+			text-decoration: underline;
+		}
+	}
 
 	.app-container__body {
 		padding: 15px;
-		background-color: #f7f7f7;
 		min-height: 470px;
 		color: #444;
-		position: relative;
 
 		.region-container{
 			font-size: 15px;

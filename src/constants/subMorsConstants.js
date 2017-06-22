@@ -3,11 +3,11 @@ import createRemoteActions from './utils/createRemoteActions';
 import merge from 'lodash/merge';
 
 const remoteConstants = createRemoteActions([
-	'COLLABORATORS_GET_DATA'
+	'SUB_MORS_GET_DATA'
 ]);
 
 const constants = keyMirror({
-	COLLABORATORS_SET_SELECTED: null
+	SUB_MORS_SET_SELECTED: null
 });
 
 export default merge(remoteConstants, constants);

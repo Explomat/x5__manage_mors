@@ -1,19 +1,21 @@
-import collaboratorsConstants from '../constants/collaboratorsConstants';
+import subMorsConstants from '../constants/subMorsConstants';
 
 const initialState = {
+	headerCols: [],
 	items: [],
 	selectedItems: [],
+	pagesCount: 1,
 	isLoading: false
 };
 
 export default function regions(state = initialState, action) {
 	switch (action.type) {
-		case collaboratorsConstants.COLLABORATORS_GET_DATA:
+		case subMorsConstants.SUB_MORS_GET_DATA:
 			return {
 				...state,
 				isLoading: true
 			};
-		case collaboratorsConstants.COLLABORATORS_GET_DATA_SUCCESS: {
+		case subMorsConstants.SUB_MORS_GET_DATA_SUCCESS: {
 			return {
 				...state,
 				...action.result,

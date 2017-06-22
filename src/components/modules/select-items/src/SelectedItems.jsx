@@ -25,7 +25,7 @@ class SelectedItem extends React.Component {
 	render(){
 		return (
 			<div className='item' onClick={this.handleRemoveItem}>
-				<i className='icon-minus' />
+				<i className='item__icon icon-minus' />
 				<label className='item__text oneline'>{this._getFirstField()}</label>
 			</div>
 		);

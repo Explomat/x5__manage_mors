@@ -6,6 +6,12 @@ class Paging extends React.Component {
 	constructor(props){
 		super(props);
 
+		this.handleChangeDecrementPage = this.handleChangeDecrementPage.bind(this);
+		this.handleChangeIncrementPage = this.handleChangeIncrementPage.bind(this);
+		this.handleKeyDown = this.handleKeyDown.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.handleblur = this.handleblur.bind(this);
+
 		this.state = {
 			value: props.value
 		};
@@ -55,7 +61,7 @@ class Paging extends React.Component {
 	render(){
 		return (
 			<div className='filters__paging'>
-				<i className='icon-arrow-left' onClick={this.handleChangeDecrementPage} />
+				<i className='filters__paging-icon icon-left-open-2' onClick={this.handleChangeDecrementPage} />
 				<input
 					ref='page'
 					type='text'
@@ -66,7 +72,7 @@ class Paging extends React.Component {
 					onChange={this.handleChange}
 				/>
 				<span className='pages-count'>{this.props.pagesCount}</span>
-				<i className='icon-arrow-right' onClick={this.handleChangeIncrementPage} />
+				<i className='filters__paging-icon icon-right-open-2' onClick={this.handleChangeIncrementPage} />
 			</div>
 		);
 	}
