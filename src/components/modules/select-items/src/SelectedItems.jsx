@@ -33,7 +33,7 @@ class SelectedItem extends React.Component {
 }
 
 SelectedItem.propTypes = {
-	id: PropTypes.string,
+	id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	data: PropTypes.object
 };
 

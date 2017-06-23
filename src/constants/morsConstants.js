@@ -7,7 +7,8 @@ const remoteConstants = createRemoteActions([
 ]);
 
 const constants = keyMirror({
-	MORS_SET_SELECTED: null
+	MORS_SET_SELECTED: null,
+	MORS_SAVE: null
 });
 
 export default merge(remoteConstants, constants);

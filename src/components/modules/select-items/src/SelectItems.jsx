@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { AlertInfo } from '../../alert';
 import SelectedItems from './SelectedItems';
-import { Panel, PanelTitle, PanelHeader, PanelBody, PanelFooter } from '../../panel';
+import Paging from './Paging';
+import { PanelTitle, PanelHeader, PanelBody, PanelFooter } from '../../panel';
 import Items from './Items';
 import Filters from './Filters';
 import { ButtonPrimary } from '../../button';
@@ -30,7 +31,10 @@ class SelectItems extends React.Component {
 	constructor(props){
 		super(props);
 		this.types = { 'integer': 'integer', 'date': 'date' };
-		this.errors = { MAX_SELECTED_ITEMS: `Вы не можете выбрать более ${props.maxSelectedItems} элемента(ов)` };
+		this.errors = {
+			MAX_SELECTED_ITEMS: `Вы не можете выбрать более ${props.maxSelectedItems}
+			${numDeclension(props.maxSelectedItems, 'элемента', 'элементов', 'элементов')}`
+		};
 
 		this.onSort = this.onSort.bind(this);
 		this.onAddItem = this.onAddItem.bind(this);
@@ -48,7 +52,6 @@ class SelectItems extends React.Component {
 			selectedItems: props.selectedItems,
 			search: '',
 			page: 1,
-			isLoading: true,
 			isDisplaySelectedItems: false,
 			error: ''
 		};
@@ -65,8 +68,7 @@ class SelectItems extends React.Component {
 	componentWillReceiveProps(nextProps){
 		this.setState({
 			items: nextProps.items ? nextProps.items : [],
-			selectedItems: nextProps.selectedItems ? nextProps.selectedItems : [],
-			isLoading: false
+			selectedItems: nextProps.selectedItems ? nextProps.selectedItems : []
 		});
 	}
 
@@ -77,14 +79,14 @@ class SelectItems extends React.Component {
 	}
 
 	handleChangeSearch(search){
-		this.setState({ search, isLoading: true, page: 1 });
+		this.setState({ search, page: 1 });
 		if (this.props.onChange){
 			this.props.onChange(search, this.state.page);
 		}
 	}
 
 	handleChangePage(page){
-		this.setState({ page, isLoading: true });
+		this.setState({ page });
 		if (this.props.onChange){
 			this.props.onChange(this.state.search, page);
 		}
@@ -126,21 +128,6 @@ class SelectItems extends React.Component {
 	}
 
 	_setData(data){
-		// const self = this;
-		// if (!data || !data.items || !data.headerCols) return;
-		// data.items = data.items.map(item => {
-		// 	Object.keys(item.data).forEach((col, index) => {
-		// 		item.data[col] = self._castType(item.data[col], data.headerCols[index].type);
-		// 	});
-		// 	return item;
-		// });
-		// this.setState({
-		// 	items: data.items,
-		// 	headerCols: data.headerCols,
-		// 	pagesCount: data.pagesCount,
-		// 	isLoading: false
-		// });
-
 		const self = this;
 		if (!data || !data.items || !data.headerCols) return;
 		const items = data.items.map(item => {
@@ -150,8 +137,7 @@ class SelectItems extends React.Component {
 			return item;
 		});
 		this.setState({
-			...items,
-			isLoading: false
+			...items
 		});
 	}
 
@@ -177,17 +163,6 @@ class SelectItems extends React.Component {
 	}
 
 	onAddItem(item){
-		// const _items = this.state.items;
-		// const _selectedItems = this.state.selectedItems;
-		//
-		// if (_selectedItems.length >= this.props.maxSelectedItems){
-		// 	this.setState({ error: this.errors.MAX_SELECTED_ITEMS, isShowError: true });
-		// 	return;
-		// }
-		// if (some(_selectedItems, { id: item.id })) return;
-		// _selectedItems.push({ ...item });
-		// this.setState({ items: _items, selectedItems: _selectedItems });
-
 		const { selectedItems } = this.state;
 		if (selectedItems.length >= this.props.maxSelectedItems){
 			this.setState({ error: this.errors.MAX_SELECTED_ITEMS, isShowError: true });
@@ -205,55 +180,66 @@ class SelectItems extends React.Component {
 	}
 
 	render() {
-		const { title, headerCols, pagesCount } = this.props;
-		const { isLoading, error, page, search, items, selectedItems, isDisplaySelectedItems } = this.state;
+		const { isFetching, title, headerCols, pagesCount } = this.props;
+		const { error, page, search, items, selectedItems, isDisplaySelectedItems } = this.state;
 		const selectedItemsLen = selectedItems.length;
 		return (
 			<div className='select-items'>
-				<Panel>
-					<PanelHeader>
-						<PanelTitle>
-							<div className='select-item__header'>
-								<button type='button' className='close-button' onClick={this.props.onClose}>&times;</button>
+				<PanelHeader>
+					<PanelTitle>
+						<div className='select-item__header'>
+							<button type='button' className='close-button' onClick={this.props.onClose}>&times;</button>
+						</div>
+						{title}
+					</PanelTitle>
+				</PanelHeader>
+				<PanelBody>
+					<div className='select-item__body clearfix'>
+						<Filters
+							search={search}
+							onSearch={this.handleChangeSearch}
+						/>
+						{selectedItemsLen > 0 &&
+							<div className='select-items__selected-count'>
+								<a href='#' onClick={this.handleToggleSelectedItems}>
+									{`${numDeclension(selectedItemsLen, 'Выбран', 'Выбрано', 'Выбраны')} ${selectedItemsLen}
+										${numDeclension(selectedItemsLen, 'элемент', 'элемента', 'элементов')}`
+									}
+								</a>
+								&nbsp;<span className={cx('caret', { 'caret--rotate': isDisplaySelectedItems })} />
 							</div>
-							{title}
-						</PanelTitle>
-					</PanelHeader>
-					<PanelBody>
-						<div className='select-item__body clearfix'>
-							<Filters
-								page={page}
-								pagesCount={pagesCount}
-								search={search}
-								onSearch={this.handleChangeSearch}
-								onPage={this.handleChangePage}
-							/>
-							{selectedItemsLen > 0 &&
-								<div className='select-items__selected-count'>
-									<a href='#' onClick={this.handleToggleSelectedItems}>
-										{`${numDeclension(selectedItemsLen, 'Выбран', 'Выбрано', 'Выбраны')} ${selectedItemsLen}
-											${numDeclension(selectedItemsLen, 'элемент', 'элемента', 'элементов')}`
-										}
-									</a>
-									&nbsp;<span className={cx('caret', { 'caret--rotate': isDisplaySelectedItems })} />
-								</div>
-							}
-							{isDisplaySelectedItems && selectedItemsLen > 0 && <SelectedItems items={selectedItems} />}
-							<Items
-								items={items}
-								selectedItems={selectedItems}
-								headerCols={headerCols}
-								isLoading={isLoading}
-							/>
-						</div>
-					</PanelBody>
-					<PanelFooter>
-						<div className='select-item__footer'>
-							{error && <AlertInfo text={error} />}
-							<ButtonPrimary onClick={this.handleSave} text='Сохранить' />
-						</div>
-					</PanelFooter>
-				</Panel>
+						}
+						{isDisplaySelectedItems && selectedItemsLen > 0 && <SelectedItems items={selectedItems} />}
+						<Paging
+							className='select-items__paging select-items__paging--top'
+							onChange={this.handleChangePage}
+							value={Number(page)}
+							pagesCount={Number(pagesCount)}
+						/>
+						<Items
+							items={items}
+							selectedItems={selectedItems}
+							headerCols={headerCols}
+						/>
+						<Paging
+							className='select-items__paging select-items__paging--bottom'
+							onChange={this.handleChangePage}
+							value={Number(page)}
+							pagesCount={Number(pagesCount)}
+						/>
+					</div>
+				</PanelBody>
+				<PanelFooter>
+					<div className='select-item__footer clearfix'>
+						{error && <AlertInfo text={error} onClose={this.handleCloseError}/>}
+						{!isFetching &&
+							<ButtonPrimary
+								className='select-item__footer-select-button'
+								onClick={this.handleSave} text='Выбрать'
+							/>}
+					</div>
+				</PanelFooter>
+				{isFetching && <div className='overlay-loading overlay-loading--show' />}
 			</div>
 		);
 	}

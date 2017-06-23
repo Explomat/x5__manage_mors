@@ -24,3 +24,10 @@ export function getMors(){
 		}, 300);
 	};
 }
+
+export function saveMors(selectedItems){
+	return {
+		type: morsConstants.MORS_SAVE,
+		selectedItems
+	};
+}

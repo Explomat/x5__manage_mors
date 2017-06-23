@@ -16,7 +16,7 @@ const regions = [
 		'isEdit': true,
 		'mor': {
 			'id': 11,
-			'name': 'MOR_11',
+			'name': 'MORdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd_11',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=11'
 		}
 	},
@@ -135,5 +135,8 @@ export function getMockRegion(regionId){
 }
 
 export function getMockCollaborators(){
-	return { ...collaborators };
+	return {
+		...collaborators,
+		items: [ ...collaborators.items ]
+	};
 }

@@ -5,7 +5,7 @@ const initialState = {
 	items: [],
 	selectedItems: [],
 	pagesCount: 1,
-	isLoading: false
+	isFetching: true
 };
 
 export default function regions(state = initialState, action) {
@@ -13,13 +13,13 @@ export default function regions(state = initialState, action) {
 		case subMorsConstants.SUB_MORS_GET_DATA:
 			return {
 				...state,
-				isLoading: true
+				isFetching: true
 			};
 		case subMorsConstants.SUB_MORS_GET_DATA_SUCCESS: {
 			return {
 				...state,
 				...action.result,
-				isLoading: false
+				isFetching: false
 			};
 		}
 

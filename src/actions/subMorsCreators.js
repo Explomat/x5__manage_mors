@@ -24,3 +24,10 @@ export function getSubMors(){
 		}, 300);
 	};
 }
+
+export function saveSubMors(selectedItems){
+	return {
+		type: subMorsConstants.SUB_MORS_SAVE,
+		selectedItems
+	};
+}

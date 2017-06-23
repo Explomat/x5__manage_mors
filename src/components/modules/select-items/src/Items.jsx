@@ -93,13 +93,6 @@ Item.contextTypes = {
 class Items extends React.Component {
 
 	getColsMarkup(){
-		// const headerCols = this.props.headerCols;
-		// const markUpCols = [ <th key={0} /> ];
-		// headerCols.forEach((c, index) => {
-		// 	markUpCols.push(<HeaderCol key={index + 1} name={c.name} index={index}/>);
-		// });
-		// return markUpCols;
-
 		const { headerCols } = this.props;
 		return headerCols.reduce((f, s, index) => {
 			f.push(<HeaderCol key={index + 1} name={s.name} index={index}/>);
@@ -118,10 +111,6 @@ class Items extends React.Component {
 	render() {
 		const cols = this.getColsMarkup();
 		const items = this.getRowsMarkUp();
-		const isLoadingClass = cx({
-			'overlay-loading': true,
-			'overlay-loading--show': this.props.isLoading
-		});
 		return (
 			<div className='items-wrapper'>
 				<table className='items-wrapper__header'>
@@ -136,8 +125,6 @@ class Items extends React.Component {
 						</tbody>
 					</table>
 				</div>
-
-				<div className={isLoadingClass} />
 			</div>
 
 		);

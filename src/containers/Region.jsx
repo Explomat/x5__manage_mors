@@ -13,9 +13,13 @@ class RegionContainer extends Component {
 	constructor(props){
 		super(props);
 
-		this.handleDisplayMorModal = this.handleDisplayMorModal.bind(this);
-		this.handleDisplaySubMorModal = this.handleDisplaySubMorModal.bind(this);
+		this.handleToggleDisplayMorModal = this.handleToggleDisplayMorModal.bind(this);
+		this.handleToggleDisplaySubMorModal = this.handleToggleDisplaySubMorModal.bind(this);
 
+		this.handleSaveSelectedMors = this.handleSaveSelectedMors.bind(this);
+		this.handleSearchMors = this.handleSearchMors.bind(this);
+		this.handleSaveSelectedSubMors = this.handleSaveSelectedSubMors.bind(this);
+		this.handleSearchSubMors = this.handleSearchSubMors.bind(this);
 		this.state = {
 			isDisplayMorModal: false,
 			isDisplaySubMorModal: false
@@ -31,13 +35,32 @@ class RegionContainer extends Component {
 		this.props.removeRegionFromStore();
 	}
 
-	handleDisplayMorModal(){
-		this.setState({ isDisplayMorModal: true });
+	handleSaveSelectedMors(mors){
+		this.props.saveMors(mors);
+		this.setState({ isDisplayMorModal: !this.state.isDisplayMorModal });
+	}
+
+	handleSearchMors(search, page){
+		this.props.getMors(search, page);
+	}
+
+	handleSaveSelectedSubMors(subMors){
+		this.props.saveSubMors(subMors);
+		this.setState({ isDisplaySubMorModal: !this.state.isDisplaySubMorModal });
+	}
+
+	handleSearchSubMors(search, page){
+		this.props.getSubMors(search, page);
+	}
+
+	handleToggleDisplayMorModal(){
+		this.setState({ isDisplayMorModal: !this.state.isDisplayMorModal });
 		this.props.getMors();
 	}
 
-	handleDisplaySubMorModal(){
-		this.setState({ isDisplaySubMorModal: true });
+	handleToggleDisplaySubMorModal(){
+		this.setState({ isDisplaySubMorModal: !this.state.isDisplaySubMorModal });
+		this.props.getSubMors();
 	}
 
 	render(){
@@ -48,31 +71,37 @@ class RegionContainer extends Component {
 			<div className='region-container'>
 				<div className='region-container__title'>{title}</div>
 				<div className='region__container-fields clearfix'>
-					{mor &&
-						<div className='region-container__mor-name'>
-							<span className='region-container__field-label'>МОР</span>
-							<span className='region-container__field-value'>
+					<div className='region-container__mor-name'>
+						<span className='region-container__field-label'>МОР</span>
+						<span className='region-container__field-value'>
+							{mor ?
+								<span>
+									<span
+										onClick={this.handleToggleDisplayMorModal}
+										className='region-container__icon icon-edit-1'
+									/>
+									{mor.name}
+								</span> :
 								<span
-									onClick={this.handleDisplayMorModal}
-									className='region-container__icon icon-edit-1'
+									onClick={this.handleToggleDisplayMorModal}
+									className='region-container__icon icon-user-plus'
 								/>
-								{mor.name}
-							</span>
-						</div>
-					}
+							}
+						</span>
+					</div>
 					<div className='region-container__sub-mor-name'>
 						<span className='region-container__field-label'>Заместитель</span>
 						<span className='region-container__field-value'>
 							{subMor ?
 								<span>
 									<span
-										onClick={this.handleDisplaySubMorModal}
+										onClick={this.handleToggleDisplaySubMorModal}
 										className='region-container__icon icon-edit-1'
 									/>
 									{subMor.name}
 								</span> :
 								<span
-									onClick={this.handleDisplaySubMorModal}
+									onClick={this.handleToggleDisplaySubMorModal}
 									className='region-container__icon icon-user-plus'
 								/>
 							}
@@ -87,15 +116,26 @@ class RegionContainer extends Component {
 					{subMor &&
 						<div className='region-container__container__sub-mor-alternate-creater-fullname'>
 							<span className='region-container__field-label'>Замену поставил</span>
-							<span className='region-container__field-value'>{subMor.alternate_creater_fullname}	</span>
-
+							<span className='region-container__field-value'>{subMor.alternate_creater_fullname} </span>
 						</div>
 					}
 				</div>
 				{isDisplayMorModal &&
-					<SelectItems {...mors}/>}
+					<SelectItems
+						{...mors}
+						maxSelectedItems={1}
+						onSave={this.handleSaveSelectedMors}
+						onChange={this.handleSearchMors}
+						onClose={this.handleToggleDisplayMorModal}
+					/>}
 				{isDisplaySubMorModal &&
-					<SelectItems {...subMors}/>}
+					<SelectItems
+						{...subMors}
+						maxSelectedItems={1}
+						onSave={this.handleSaveSelectedSubMors}
+						onChange={this.handleSearchSubMors}
+						onClose={this.handleToggleDisplaySubMorModal}
+					/>}
 			</div>
 
 		);
@@ -103,11 +143,36 @@ class RegionContainer extends Component {
 }
 
 function mapStateToProps(state) {
+	const { region, mors, subMors } = state;
 	return {
-		...state.region,
-		mors: state.mors,
-		subMors: state.subMors
+		...region,
+		mors: {
+			...mors,
+			selectedItems: region.mor ? [
+				{
+					id: region.mor.id,
+					data: {
+						fullname: region.mor.name
+					}
+				}
+			] : mors.selectedItems
+		},
+		subMors: {
+			...subMors,
+			selectedItems: region.subMor ? [
+				{
+					id: region.subMor.id,
+					data: {
+						fullname: region.subMor.name
+					}
+				}
+			] : subMors.selectedItems
+		}
 	};
 }
 
-export default connect(mapStateToProps, { ...regionsCreators, ...morsCreators, ...subMorsCreators })(RegionContainer);
+export default connect(mapStateToProps, {
+	...regionsCreators,
+	...morsCreators,
+	...subMorsCreators
+})(RegionContainer);

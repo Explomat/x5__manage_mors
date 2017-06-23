@@ -13,13 +13,7 @@ class TextOverflow extends React.Component {
 		};
 	}
 
-	_changeDisplayDots(){
-		if (this.refs.overflowText.offsetHeight > this.refs.overflowParent.offsetHeight) {
-		  this.setState({ isDisplayDots: true });
-		}		else this.setState({ isDisplayDots: false });
-	}
-
-	componentDidUpdate(){
+	componentDidMount(){
 		this._changeDisplayDots();
 	}
 
@@ -27,8 +21,14 @@ class TextOverflow extends React.Component {
 		return (nextProps.value !== this.props.value || nextState.isDisplayDots !== this.state.isDisplayDots);
 	}
 
-	componentDidMount(){
+	componentDidUpdate(){
 		this._changeDisplayDots();
+	}
+
+	_changeDisplayDots(){
+		if (this.refs.overflowText.offsetHeight > this.refs.overflowParent.offsetHeight) {
+			this.setState({ isDisplayDots: true });
+		} else this.setState({ isDisplayDots: false });
 	}
 
 	render() {
