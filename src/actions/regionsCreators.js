@@ -1,5 +1,6 @@
 //import { get, post } from '../utils/ajax';
 //import { url } from '../config';
+import { push } from 'react-router-redux';
 import regionsConstants from '../constants/regionsConstants';
 //import { normalize } from 'normalizr';
 //import uuid from '../utils/uuid';
@@ -67,5 +68,25 @@ export function getRegion(regionId){
 export function removeRegionFromStore(){
 	return {
 		type: regionsConstants.REGIONS_REMOVE_REGION_FROM_STORE
+	};
+}
+
+export function setAlternateDate(date){
+	return {
+		type: regionsConstants.REGIONS_SET_ALTERNATE_DATE,
+		date
+	};
+}
+
+export function saveRegion(){
+	return dispatch => {
+		dispatch({ type: regionsConstants.REGIONS_SAVE_REGION });
+
+		setTimeout(() => {
+			// dispatch({
+			// 	type: regionsConstants.REGIONS_SAVE_REGION_SUCCESS
+			// });
+			dispatch(push('/home/regions'));
+		}, 300);
 	};
 }

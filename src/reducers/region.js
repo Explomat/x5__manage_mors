@@ -25,8 +25,33 @@ export default function regions(state = initialState, action) {
 				isFetching: false
 			};
 		}
+
+		case regionsConstants.REGIONS_SAVE_REGION: {
+			return {
+				...state,
+				isFetching: true
+			};
+		}
+		case regionsConstants.REGIONS_SAVE_REGION_SUCCESS: {
+			return {
+				...state,
+				isFetching: false
+			};
+		}
+
+
 		case regionsConstants.REGIONS_REMOVE_REGION_FROM_STORE: {
 			return initialState;
+		}
+
+		case regionsConstants.REGIONS_SET_ALTERNATE_DATE: {
+			return {
+				...state,
+				subMor: {
+					...state.subMor,
+					alternate_date: action.date
+				}
+			};
 		}
 
 		case morsConstants.MORS_SAVE: {

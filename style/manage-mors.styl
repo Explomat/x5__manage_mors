@@ -1,6 +1,6 @@
 .app-container{
+	min-width: 320px;
 	width: 100vw;
-	height: 100vh;
 	background-color: #f7f7f7;
 	box-shadow: 1px 1px 5px 0 #979797;
 	position: relative;
@@ -25,6 +25,7 @@
 		.region-container{
 			font-size: 15px;
 			padding: 15px;
+			height: 100vh;
 
 			.region-container__icon{
 				color: lighten(#ff8100, 30%);
@@ -34,12 +35,14 @@
 
 			.region-container__title{
 				padding-bottom: 4px;
-				margin-bottom: 16px;
+				margin-bottom: 32px;
 				font-size: 1.5em;
 				color: #444;
-				word-break: break-all;
+				word-break: break-word;
 			}
 			.region__container-fields {
+				line-height: 27px;
+
 				.region-container__field-label{
 					color: rgba(0,0,0,.5);
 					clear: both;
@@ -49,8 +52,7 @@
 				}
 				.region-container__field-value{
 					float: left;
-    				margin: 0 0 10px;
-					word-break: break-all;
+					word-break: break-word;
 					max-width: 50%;
 				}
 
@@ -66,6 +68,10 @@
 				.region-container__container__sub-mor-alternate-creater-fullname{
 
 				}
+			}
+
+			.region-container__save-btn{
+				float: right;
 			}
 		}
 	}

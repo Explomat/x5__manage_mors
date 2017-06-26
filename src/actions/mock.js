@@ -16,7 +16,7 @@ const regions = [
 		'isEdit': true,
 		'mor': {
 			'id': 11,
-			'name': 'MORdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd_11',
+			'name': 'Габдуллин Дамир Габдульбариевич',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=11'
 		}
 	},
@@ -27,15 +27,15 @@ const regions = [
 		'isEdit': true,
 		'mor': {
 			'id': 13,
-			'name': 'MOR_13',
+			'name': 'Габдуллин Дамир Габдульбариевич',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=13'
 		},
 		'subMor': {
 			'id': 14,
-			'name': 'SUB_MOR_14',
+			'name': 'Матвеев Савва Янович',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=14',
-			'alternate_date': '14.06.2017',
-			'alternate_creater_fullname': 'MOR_13'
+			'alternate_date': '2017.05.14',
+			'alternate_creater_fullname': 'Габдуллин Дамир Габдульбариевич'
 		}
 	},
 	{
@@ -45,15 +45,15 @@ const regions = [
 		'isEdit': false,
 		'mor': {
 			'id': 15,
-			'name': 'MOR_15',
+			'name': 'Петров Петр Петрович',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=15'
 		},
 		'subMor': {
 			'id': 16,
-			'name': 'SUB_MOR_16',
+			'name': 'Иванов Иван Иванович',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=16',
-			'alternate_date': '14.06.2017',
-			'alternate_creater_fullname': 'MOR_15'
+			'alternate_date': '2017.05.14',
+			'alternate_creater_fullname': 'Петров Петр Петрович'
 		}
 	},
 	{
@@ -63,15 +63,15 @@ const regions = [
 		'isEdit': false,
 		'mor': {
 			'id': 17,
-			'name': 'MOR_17',
+			'name': 'Иванов Иван Иванович',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=17'
 		},
 		'subMor': {
 			'id': 18,
-			'name': 'SUB_MOR_18',
+			'name': 'Габдуллин Дамир Габдульбариевич',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=18',
-			'alternate_date': '14.06.2017',
-			'alternate_creater_fullname': 'MOR_17'
+			'alternate_date': '2017.05.14',
+			'alternate_creater_fullname': 'Иванов Иван Иванович'
 		}
 	},
 	{
@@ -81,15 +81,15 @@ const regions = [
 		'isEdit': false,
 		'mor': {
 			'id': 19,
-			'name': 'MOR_19',
+			'name': 'Габдуллин Дамир Габдульбариевич',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=19'
 		},
 		'subMor': {
 			'id': 20,
-			'name': 'SUB_MOR_20',
+			'name': 'Габдуллин Дамир Габдульбариевич',
 			'url': '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=20',
-			'alternate_date': '14.06.2017',
-			'alternate_creater_fullname': 'MOR_19'
+			'alternate_date': '2017.05.14',
+			'alternate_creater_fullname': 'Габдуллин Дамир Габдульбариевич'
 		}
 	}
 ];

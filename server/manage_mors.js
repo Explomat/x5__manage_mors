@@ -53,8 +53,7 @@
 			queryObjects.Request.SetRespStatus(404, 'Регион не найден');
 		}
 
-		var limit = queryObjects.HasProperty('limit') ? queryObjects.limit : LIMIT;
-		var offset = queryObjects.HasProperty('offset') ? queryObjects.offset : OFFSET;
+		var page = queryObjects.HasProperty('page') ? queryObjects.page : 1;
 
 		// var regions = XQuery('sql:
 		//     with e(mor_id, int_rownum) as
@@ -86,7 +85,7 @@
 			select e.sub_id, e.sub_name, e.mor_id, e.mor_fullname, e.alternate_id, e.alternate_mor_fullname, e.rnb, e.total
 			from e
 			where (e.mor_id = ' + userID + ' or e.mor_id in (\'' + users.join('\',\'') + '\'))
-			and rnb BETWEEN ' + offset + ' AND ' + limit + ';
+			and rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT + ';
 		');
 
 		var oregions = [];
@@ -107,11 +106,81 @@
 
 	function put_Regions(queryObjects){
 		var regionId = queryObjects.HasProperty('region_id') ? queryObjects.region_id : null;
-		if (regionId != null){
-			var data = tools.read_object(queryObjects.Body);
-			return tools.object_to_text(Region(saveRegion(data)), 'json');
+		if ( regionId != null ) {
+			var findRegion = ArrayOptFirstElem( XQuery("for $elem in cc_mor_controls
+				where $elem/sub_id = " + regionId + " return $elem"));
+			if ( findRegion != undefined ) {
+				var data = tools.read_object(queryObjects.Body);
+				try {
+					var curDoc = OpenDoc(UrlFromDocID(findRegion.id));
+					curDoc.TopElem.mor_id = data.HasProperty('mor') ? data.mor.id : null;
+					curDoc.TopElem.alternate_id = data.HasProperty('subMor') ? data.subMor.id : null;
+					curDoc.TopElem.alternate_date = data.HasProperty('subMor') ? data.subMor.id : null;
+					curDoc.TopElem.alternate_creater_id = data.HasProperty('subMor') ? data.subMor.id : null;
+					curDoc.Save();
+				} catch (e) {
+					queryObjects.Request.SetRespStatus( 404, 'Ошибка при сохранении изменений -' + e);
+				}
+			}
+			queryObjects.Request.SetRespStatus( 404, 'Регион не найден');
 		}
 	}
+
+	function get_Mors(queryObjects){
+		var search = queryObjects.HasProperty('search') ? queryObjects.search : '';
+		var page = queryObjects.HasProperty('page') ? queryObjects.page : 1;
+
+		// var regions = XQuery('sql:
+		//     with e(mor_id, int_rownum) as
+		//     (
+		//         SELECT i."mor_id", ROWNUM int_rownum
+		//         FROM "cc_mor_controls" i
+		//         WHERE ROWNUM <= (0 + 1) * 3
+		//     )
+		//     select e.mor_id, e.int_rownum
+		//     from e
+		//     where e.int_rownum > 0 * 3
+		// ');
+		//var regions = XQuery("for $rs in cc_mor_controls where $rs/mor_id = " + userID + " or MatchSome(" + userID + ",(" + users.join(',') + "))");
+
+
+		var _mors = XQuery('sql:
+			with e(id, fullname, position_name, rnb, total) as
+			(
+				SELECT
+					c."id",
+					"fullname",
+					"position_name",
+					row_number() over (order by "fullname") rnb,
+					count(*) over() total
+				FROM "WTDB"."collaborators" cc
+				inner join "collaborator" c on c."id" = cc."id"
+				where cc."is_dismiss" = 0
+				and cc."fullname" LIKE \'%' + search + '%\'
+			)
+			select e.id, e.fullname, e.position_name, e.rnb, e.total
+			from e
+			where rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT +';');
+
+		var omors = [];
+		var total = 0;
+		for (r in _mors){
+			total = r.total;
+			omors.push({
+				id: Trim(r.id),
+				data: {
+					fullname: Trim(r.fullname + ' / ' + r.position_name)
+				}
+			});
+		}
+		return tools.object_to_text({
+			headerCols: [ { fullname: 'ФИО', type: 'string' } ],
+			items: omors,
+			page: page,
+			pagesCount: total / LIMIT
+		}, 'json');
+	}
+
 
 	/*function post_Mors(queryObjects){
 		var data = tools.read_object(queryObjects.Body);

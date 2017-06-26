@@ -235,7 +235,8 @@ class SelectItems extends React.Component {
 						{!isFetching &&
 							<ButtonPrimary
 								className='select-item__footer-select-button'
-								onClick={this.handleSave} text='Выбрать'
+								onClick={this.handleSave}
+								text='Выбрать'
 							/>}
 					</div>
 				</PanelFooter>

@@ -1,9 +1,15 @@
 import React from 'react';
 //import ArrowRight from 'react-icons/io/arrow-right-a';
 import { Link } from 'react-router-dom';
+import cx from 'classnames';
 import './region.styl';
 
 const Region = ({ id, url, title, mor, subMor }) => {
+	const morClasses = cx({
+		'icon-user': true,
+		'region__mor-name': true,
+		'region__mor-name--is-sub-mor': subMor
+	});
 	return (
 		<div className='region'>
 
@@ -16,14 +22,12 @@ const Region = ({ id, url, title, mor, subMor }) => {
 			>
 				<div className='region__title'>{title}</div>
 				<div className='region__mors'>
-					{mor && <span className='icon-user region__mor-name'>{mor.name}</span>}
+					{mor && <span className={morClasses}>{mor.name}</span>}
+					{subMor && <span className='region__icon' />}
 					{subMor &&
-						<span className='region__sub-mor'>
-							&nbsp;&nbsp;<span className='region__icon' />&nbsp;&nbsp;
-							<span className='region__sub-mor-info'>
-								<span className='icon-user region__sub-mor-name'>{subMor.name}</span>
-								<span className='region__sub-mor-alternate-date'>{subMor.alternate_date}</span>
-							</span>
+						<span className='region__sub-mor-info'>
+							<span className='icon-user region__sub-mor-name'>{subMor.name}</span>
+							<span className='region__sub-mor-alternate-date'>{subMor.alternate_date}</span>
 						</span>
 					}
 				</div>

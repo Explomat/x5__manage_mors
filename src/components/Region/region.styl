@@ -1,14 +1,14 @@
+@import 'media/media.phone*'
+
 .region {
 	// padding: 15px;
 	// margin-bottom: 8px;
 	// background-color: lighten(#ff8100, 90%);
 
-	padding: 20px 15px;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
-	margin-bottom: 8px;
-	background-color: #fff;
-
-
+	padding: 15px 0 15px 15px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);
+    margin-bottom: 8px;
+    background-color: #fff;
 
 	.region__href{
 		display: block;
@@ -17,50 +17,62 @@
 		position: relative;
 
 		.region__title {
-			font-size: 1.3em;
-			padding-right: 50px;
+			font-size: 1.2em;
+			padding-right: 40px;
 			line-height: 20px;
 		}
 
 		.region__mors {
 			position: relative;
-			margin-top: 20px;
+			margin-top: 8px;
 			font-size: 13px;
 
 			.region__mor-name{
-				color: #999;
-				&--without-sub {
-					color: inherit;
+				padding-right: 0;
+				display: inline-block;
+				word-break: break-word;
+				vertical-align: top;
+
+				&--is-sub-mor {
+					color: #999;
+					width: 45%;
 				}
 			}
 
-			.region__sub-mor{
-				.region__icon{
-					background-image: url("../../../images/arrow-right.png");
-			        background-position: center center;
-			        background-repeat: no-repeat;
-			        background-size: 100%;
-			        display: inline-block;
-			        width: 32px;
-			        height: 11px;
-				}
-				.region__sub-mor-info{
-					display: inline-block;
-					position: absolute;
-					top: -50%;
+			.region__icon{
+				background-position: center center;
+		        background-repeat: no-repeat;
+		        background-size: 100%;
+		        display: inline-block;
 
-					.region__sub-mor-name{
-						display: inline-block;
-						border-bottom: 1px solid #ccc;
-						padding-bottom: 1px;
-					}
-					.region__sub-mor-alternate-date{
-						display: block;
-						font-size: 11px;
-						padding-top: 1px;
-						position: relative;
-    					left: 15px;
-					}
+				background-image: url("../../../images/right-arrow-32.png");
+				width: 32px;
+				height: 11px;
+				margin-right: 8px;
+				margin-left: 8px;
+				position: absolute;
+    			top: 0;
+			}
+			.region__sub-mor-info{
+				display: inline-block;
+				padding-right: 40px;
+				position: relative;
+				word-break: break-word;
+				width: 45%;
+				margin-left: 50px;
+				vertical-align: top;
+
+				.region__sub-mor-name{
+					display: inline-block;
+					border-bottom: 1px solid #ccc;
+					padding-bottom: 1px;
+				}
+				.region__sub-mor-alternate-date{
+					display: block;
+					font-size: 11px;
+					padding-top: 1px;
+					position: relative;
+					left: 15px;
 				}
 			}
 		}
