@@ -24,6 +24,18 @@ class InputCalendar extends Component {
 		this.handleSave = this.handleSave.bind(this);
 	}
 
+	componentDidMount(){
+		const el = this.refs.calendar;
+
+		const left = el.getBoundingClientRect().left;
+		const width = el.offsetWidth;
+		const windowWidth = window.innerWidth;
+		const bound = left + width;
+		if (bound >  windowWidth){
+			el.style.left = (windowWidth - bound) + 'px';
+		}
+	}
+
 	handleToogle(){
 		this.setState({ isShow: !this.state.isShow });
 	}
@@ -63,7 +75,7 @@ class InputCalendar extends Component {
 					readOnly
 				/>
 				<i className={iconClasses} onClick={this.handleToogle} />
-				<div className={cx({ 'input-calendar__calendar': true, 'input-calendar__calendar--show': isShow })}>
+				<div ref='calendar' className={cx({ 'input-calendar__calendar': true, 'input-calendar__calendar--show': isShow })}>
 					<InputMoment
 						moment={moment(date)}
 						onChange={this.props.onChange}

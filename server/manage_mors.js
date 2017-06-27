@@ -27,6 +27,12 @@
 	var userID = curUserID;
 	var users = [6421219165670962494];
 
+	function __countPages(total, limit){
+		var t = total / Real(limit);
+		var t1 = total / limit;
+		return t > t1 ? t1 + 1 : t1;
+	}
+
 	function __assignDoc(te, obj){
 		for (el in te){
 			objVal = obj.GetOptProperty(el.Name);
@@ -177,7 +183,7 @@
 			headerCols: [ { fullname: 'ФИО', type: 'string' } ],
 			items: omors,
 			page: page,
-			pagesCount: total / LIMIT
+			pagesCount: __countPages(total, LIMIT)
 		}, 'json');
 	}
 
