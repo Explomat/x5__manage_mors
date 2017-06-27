@@ -25,7 +25,7 @@
 	var LIMIT = 25;
 	var OFFSET = 0;
 	var userID = curUserID;
-	var users = [6421219165670962494];
+	var users = [6148914691236517121];
 
 	function __countPages(total, limit){
 		var t = total / Real(limit);
@@ -77,21 +77,47 @@
 		var regions = XQuery('sql:
 			with e(sub_id, sub_name, mor_id, mor_fullname, alternate_id, alternate_mor_fullname, rnb, total) as
 			(
-				SELECT
+				select
 					"sub_id",
 					"sub_name",
 					"mor_id",
-					"mor_fullname",
+					mc."fullname" as "mor_fullname",
 					"alternate_id",
-					"alternate_mor_fullname",
+					ac."fullname" as "alternate_mor_fullname",
 					row_number() over (order by "mor_id") rnb,
 					count(*) over() total
-				FROM "cc_mor_controls"
+				from "cc_mor_controls"
+				left join "collaborators" mc on mc."id" = "mor_id"
+				left join "collaborators" ac on ac."id" = "alternate_id"
 			)
-			select e.sub_id, e.sub_name, e.mor_id, e.mor_fullname, e.alternate_id, e.alternate_mor_fullname, e.rnb, e.total
+			select
+				e.sub_id, e.sub_name, e.mor_id, e.mor_fullname, e.alternate_id, e.alternate_mor_fullname, e.rnb, e.total
 			from e
-			where (e.mor_id = ' + userID + ' or e.mor_id in (\'' + users.join('\',\'') + '\'))
-			and rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT + ';
+			--where (e.mor_id = ' + userID + ' or e.mor_id in (\'' + users.join('\',\'') + '\'))
+			where e.rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT + ';
+		');
+
+		alert('sql:
+			with e(sub_id, sub_name, mor_id, mor_fullname, alternate_id, alternate_mor_fullname, rnb, total) as
+			(
+				select
+					"sub_id",
+					"sub_name",
+					"mor_id",
+					mc."fullname" as "mor_fullname",
+					"alternate_id",
+					ac."fullname" as "alternate_mor_fullname",
+					row_number() over (order by "mor_id") rnb,
+					count(*) over() total
+				from "cc_mor_controls"
+				left join "collaborators" mc on mc."id" = "mor_id"
+				left join "collaborators" ac on ac."id" = "alternate_id"
+			)
+			select
+				e.sub_id, e.sub_name, e.mor_id, e.mor_fullname, e.alternate_id, e.alternate_mor_fullname, e.rnb, e.total
+			from e
+			--where (e.mor_id = ' + userID + ' or e.mor_id in (\'' + users.join('\',\'') + '\'))
+			where e.rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT + ';
 		');
 
 		var oregions = [];
@@ -103,8 +129,8 @@
 		return tools.object_to_text({
 			regions: oregions,
 			paging: {
-				limit: limit,
-				offset: offset,
+				limit: LIMIT,
+				offset: OFFSET,
 				total: total
 			}
 		}, 'json');

@@ -29,7 +29,11 @@ app.use(webpackHotMiddleware(compiler, {
 }));
 
 
-var apiProxy = proxy({ target: project.common.proxyServer });
+var apiProxy = proxy({
+	target: project.common.proxyServer,
+	auth: 'user1:user1',
+	changeOrigin: true
+});
 //\/custom_web_template\.html\?object_id=\d+&server_id=\d+(&\w+)?
 app.use('/custom_web_template.html', apiProxy);
 

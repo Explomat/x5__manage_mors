@@ -100,7 +100,7 @@ module.exports = {
                 'NODE_ENV': '"development"'
             }
 	    }),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /ru/),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'react',

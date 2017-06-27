@@ -4,7 +4,7 @@ import { routerMiddleware } from 'react-router-redux';
 import rootReducer from '../reducers';
 
 export default function configureStore(history, initialState) {
-    return createStore(
+	return createStore(
         rootReducer,
         initialState,
         applyMiddleware(thunk, routerMiddleware(history))

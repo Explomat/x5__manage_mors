@@ -1,13 +1,12 @@
 import { addServer, getAll } from  './servers';
 
-const routerId = '6426564961292851360';
+const routerId = '6424386388863752846';
 const customBaseUrl = '/custom_web_template.html';
 
-addServer({ id: '6426559944368726663', name: 'manageMors' })
+addServer({ id: '6436293572890217200', name: 'manageMors' })
 .addActions(
 	[
-		'Ping',
-		'Submit'
+		'Regions'
 	]
 );
 
