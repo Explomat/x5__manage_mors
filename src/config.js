@@ -6,7 +6,8 @@ const customBaseUrl = '/custom_web_template.html';
 addServer({ id: '6436293572890217200', name: 'manageMors' })
 .addActions(
 	[
-		'Regions'
+		'Regions',
+		'Collaborators'
 	]
 );
 

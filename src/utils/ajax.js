@@ -49,7 +49,6 @@ function sendRequest(url, data, isCache, requestType){
 		const type = requestType || 'GET';
 
 		xmlHttp.open(type, preparedUrl, true);
-		// xmlHttp.setRequestHeader('Authorization', 'Basic ' + btoa('matveev.s:matveev.s'));
 		xmlHttp.onreadystatechange = () => {
 			if (xmlHttp.readyState === 4) {
 				if (timeout){
@@ -78,13 +77,16 @@ function sendRequest(url, data, isCache, requestType){
 	return resp;
 }
 
-
 export function get(url, isCache){
 	return sendRequest(url, null, isCache);
 }
 
 export function post(url, data, isCache){
 	return sendRequest(url, data, isCache, 'POST');
+}
+
+export function put(url, data, isCache){
+	return sendRequest(url, data, isCache, 'PUT');
 }
 
 export function uploadFile(url, file){

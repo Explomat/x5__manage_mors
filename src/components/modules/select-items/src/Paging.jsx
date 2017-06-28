@@ -12,63 +12,30 @@ class Paging extends React.Component {
 		// this.handleKeyDown = this.handleKeyDown.bind(this);
 		// this.handleChange = this.handleChange.bind(this);
 		// this.handleblur = this.handleblur.bind(this);
-
-		this.state = {
-			page: props.page
-		};
-	}
-
-	componentWillReceiveProps(nextProps){
-		this.setState({ page: nextProps.page });
 	}
 
 	handleChangeDecrementPage(){
-		if (this.state.page === 1) return;
+		const { page } = this.props;
+		if (page === 0) return;
 		if (this.props.onChange){
-			this.props.onChange(this.state.page - 1);
+			this.props.onChange(page - 1);
 		}
 	}
 
 	handleChangeIncrementPage(){
-		if (this.state.page > this.props.pagesCount) return;
+		const { page, pagesCount } = this.props;
+		if (page > pagesCount) return;
 		if (this.props.onChange){
-			this.props.onChange(this.state.page + 1);
+			this.props.onChange(page + 1);
 		}
 	}
-
-	// handleKeyDown(e){
-	// 	if (e.keyCode === 13){
-	// 		e.target.blur();
-	// 		this._changePage(e.target.value);
-	// 	}
-	// }
-	//
-	// handleChange(e){
-	// 	const val = e.target.value;
-	// 	const { isValid } = this.props;
-	// 	if (isValid(val)){
-	// 		this.setState({ value: val });
-	// 	}
-	// }
-	//
-	// handleblur(e){
-	// 	if (this.props.onChange){
-	// 		this.props.onChange(e.target.value);
-	// 	}
-	// }
-
-	// _changePage(val){
-	// 	if (this.props.onBlur){
-	// 		this.props.onBlur(val);
-	// 	}
-	// }
 
 	render(){
 		const { page, pagesCount, className } = this.props;
 		const classes = cx('paging', className);
 		const lPageClasses = cx({
 			'paging-icon': true,
-			'paging-icon--active': page !== 1,
+			'paging-icon--active': page !== 0,
 			'icon-left-open-1': true
 		});
 		const rPageClasses = cx({
@@ -93,7 +60,7 @@ Paging.propTypes = {
 };
 
 Paging.defaultProps = {
-	page: 1,
+	page: 0,
 	pagesCount: 1
 	// isValid(val){
 	// 	return /^[1-9]{1,}(\d+)?$/.test(val) && Number(val) >= 1;

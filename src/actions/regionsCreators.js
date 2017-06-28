@@ -1,4 +1,4 @@
-import { get } from '../utils/ajax';
+import { get, put } from '../utils/ajax';
 import { url } from '../config';
 import { push } from 'react-router-redux';
 import regionsConstants from '../constants/regionsConstants';
@@ -98,14 +98,34 @@ export function setAlternateDate(date){
 }
 
 export function saveRegion(){
-	return dispatch => {
+	return (dispatch, getState) => {
 		dispatch({ type: regionsConstants.REGIONS_SAVE_REGION });
 
-		setTimeout(() => {
-			// dispatch({
-			// 	type: regionsConstants.REGIONS_SAVE_REGION_SUCCESS
-			// });
-			dispatch(push('/home/regions'));
-		}, 300);
+		// setTimeout(() => {
+		// 	dispatch(push('/home/regions'));
+		// }, 300);
+		const state = getState();
+		
+		const path = url.createPath({
+			server_name: 'manageMors',
+			action_name: 'Regions',
+			region_id: state.region.id
+		});
+		put(path, JSON.stringify(state.region))
+		.then(resp => JSON.parse(resp))
+		.then(data => {
+			if (data.error){
+				dispatch(error(data.error));
+			} else {
+				dispatch(push('/home/regions'));
+				// dispatch({
+				// 	type: regionsConstants.REGIONS_SAVE_REGION_SUCCESS,
+				// 	result: data
+				// });
+			}
+		})
+		.catch(e => {
+			dispatch(error(e.message));
+		});
 	};
 }

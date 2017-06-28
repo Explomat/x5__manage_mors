@@ -21,15 +21,21 @@
 		PUT /regions/12345 — редактировать регион 12345
 		DELETE /regions/12345 — удалить регион 12345
 	*/
+	//var localPath = String(AbsoluteUrl('manage_mors.js'));
+	//alert(localPath);
+	//alert(ParentDirectory(localPath));
+
+	// DropFormsCache('x-local://wt/web/common/json.js');
+	// var json = OpenCodeLib('x-local://wt/web/common/json.js');
 
 	var LIMIT = 25;
-	var OFFSET = 0;
+	var OFFSET = 1;
 	var userID = curUserID;
 	var users = [6148914691236517121];
 
 	function __countPages(total, limit){
 		var t = total / Real(limit);
-		var t1 = total / limit;
+		var t1 = Math.round(total / limit);
 		return t > t1 ? t1 + 1 : t1;
 	}
 
@@ -46,86 +52,76 @@
 	}
 
 	function get_Regions(queryObjects){
+		DropFormsCache('x-local://wt/web/x5__manage_mors/server/region.js');
+		var _region = OpenCodeLib('x-local://wt/web/x5__manage_mors/server/region.js');
+
 		var regionId = queryObjects.HasProperty('region_id') ? queryObjects.region_id : null;
 		if (regionId != null){
 			var region = ArrayOptFirstElem(
-				XQuery("for $r in cc_mor_controls
-					where $r/sub_id = " + regionId + "
-					and ($r/mor_id = " + userID + " or MatchSome(" + userID + ",(" + users.join(',') + ")))")
+				XQuery("sql:
+					select
+						cast(\"sub_id\" as varchar2(32)) \"sub_id\",
+						\"sub_name\",
+						cast(\"mor_id\" as varchar2(32)) \"mor_id\",
+						mc.\"fullname\" as \"mor_fullname\",
+						cast(\"alternate_id\" as varchar2(32)) \"alternate_id\",
+						ac.\"fullname\" as \"alternate_mor_fullname\",
+						\"alternate_date\",
+    					acc.\"fullname\" as \"alternate_creater_fullname\"
+					from \"cc_mor_controls\"
+					left join \"collaborators\" mc on mc.\"id\" = \"mor_id\"
+					left join \"collaborators\" ac on ac.\"id\" = \"alternate_id\"
+					left join \"collaborators\" acc on acc.\"id\" = \"alternate_creater_id\"
+					where \"sub_id\" = " + regionId
+				)
 			);
 			if (region != undefined) {
-				return tools.object_to_text(Region(region), 'json');
+				return tools.object_to_text(_region.Region(region), 'json');
 			}
 			queryObjects.Request.SetRespStatus(404, 'Регион не найден');
 		}
 
-		var page = queryObjects.HasProperty('page') ? queryObjects.page : 1;
-
-		// var regions = XQuery('sql:
-		//     with e(mor_id, int_rownum) as
-		//     (
-		//         SELECT i."mor_id", ROWNUM int_rownum
-		//         FROM "cc_mor_controls" i
-		//         WHERE ROWNUM <= (0 + 1) * 3
-		//     )
-		//     select e.mor_id, e.int_rownum
-		//     from e
-		//     where e.int_rownum > 0 * 3
-		// ');
-		//var regions = XQuery("for $rs in cc_mor_controls where $rs/mor_id = " + userID + " or MatchSome(" + userID + ",(" + users.join(',') + "))");
-
-		var regions = XQuery('sql:
-			with e(sub_id, sub_name, mor_id, mor_fullname, alternate_id, alternate_mor_fullname, rnb, total) as
+		var page = queryObjects.HasProperty('page') ? Int(queryObjects.page) : 0;
+		var regions = XQuery("sql:
+			with e(sub_id, sub_name, mor_id, mor_fullname, alternate_id, alternate_mor_fullname, alternate_date, rnb, total) as
 			(
 				select
-					"sub_id",
-					"sub_name",
-					"mor_id",
-					mc."fullname" as "mor_fullname",
-					"alternate_id",
-					ac."fullname" as "alternate_mor_fullname",
-					row_number() over (order by "mor_id") rnb,
+					cast(\"sub_id\" as varchar2(32)) \"sub_id\",
+					\"sub_name\",
+					cast(\"mor_id\" as varchar2(32)) \"mor_id\",
+					mc.\"fullname\" as \"mor_fullname\",
+					cast(\"alternate_id\" as varchar2(32)) \"alternate_id\",
+					ac.\"fullname\" as \"alternate_mor_fullname\",
+					\"alternate_date\",
+					row_number() over (order by \"sub_name\") rnb,
 					count(*) over() total
-				from "cc_mor_controls"
-				left join "collaborators" mc on mc."id" = "mor_id"
-				left join "collaborators" ac on ac."id" = "alternate_id"
+				from \"cc_mor_controls\"
+				left join \"collaborators\" mc on mc.\"id\" = \"mor_id\"
+				left join \"collaborators\" ac on ac.\"id\" = \"alternate_id\"
 			)
 			select
-				e.sub_id, e.sub_name, e.mor_id, e.mor_fullname, e.alternate_id, e.alternate_mor_fullname, e.rnb, e.total
+				e.sub_id \"sub_id\",
+				e.sub_name \"sub_name\",
+				e.mor_id \"mor_id\",
+				e.mor_fullname \"mor_fullname\",
+				e.alternate_id \"alternate_id\",
+				e.alternate_mor_fullname \"alternate_mor_fullname\",
+				e.alternate_date \"alternate_date\",
+				e.rnb,
+				e.total \"total\"
 			from e
 			--where (e.mor_id = ' + userID + ' or e.mor_id in (\'' + users.join('\',\'') + '\'))
-			where e.rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT + ';
-		');
-
-		alert('sql:
-			with e(sub_id, sub_name, mor_id, mor_fullname, alternate_id, alternate_mor_fullname, rnb, total) as
-			(
-				select
-					"sub_id",
-					"sub_name",
-					"mor_id",
-					mc."fullname" as "mor_fullname",
-					"alternate_id",
-					ac."fullname" as "alternate_mor_fullname",
-					row_number() over (order by "mor_id") rnb,
-					count(*) over() total
-				from "cc_mor_controls"
-				left join "collaborators" mc on mc."id" = "mor_id"
-				left join "collaborators" ac on ac."id" = "alternate_id"
-			)
-			select
-				e.sub_id, e.sub_name, e.mor_id, e.mor_fullname, e.alternate_id, e.alternate_mor_fullname, e.rnb, e.total
-			from e
-			--where (e.mor_id = ' + userID + ' or e.mor_id in (\'' + users.join('\',\'') + '\'))
-			where e.rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT + ';
-		');
+			where e.rnb BETWEEN " + (page * LIMIT) + " AND " + ((page * LIMIT) + LIMIT)
+		);
 
 		var oregions = [];
 		var total = 0;
+
 		for (r in regions){
 			total = r.total;
-			oregions.push(Region(r));
+			oregions.push(_region.Region(r));
 		}
+
 		return tools.object_to_text({
 			regions: oregions,
 			paging: {
@@ -139,60 +135,64 @@
 	function put_Regions(queryObjects){
 		var regionId = queryObjects.HasProperty('region_id') ? queryObjects.region_id : null;
 		if ( regionId != null ) {
-			var findRegion = ArrayOptFirstElem( XQuery("for $elem in cc_mor_controls
-				where $elem/sub_id = " + regionId + " return $elem"));
+			var findRegion = ArrayOptFirstElem(
+				XQuery("for $elem in cc_mor_controls where $elem/sub_id = " + regionId + " return $elem")
+			);
 			if ( findRegion != undefined ) {
 				var data = tools.read_object(queryObjects.Body);
+				var mor = data.GetOptProperty('mor');
+				var subMor = data.GetOptProperty('subMor');
+
 				try {
-					var curDoc = OpenDoc(UrlFromDocID(findRegion.id));
-					curDoc.TopElem.mor_id = data.HasProperty('mor') ? data.mor.id : null;
-					curDoc.TopElem.alternate_id = data.HasProperty('subMor') ? data.subMor.id : null;
-					curDoc.TopElem.alternate_date = data.HasProperty('subMor') ? data.subMor.id : null;
-					curDoc.TopElem.alternate_creater_id = data.HasProperty('subMor') ? data.subMor.id : null;
+					var curDoc = OpenDoc(UrlFromDocID(Int(findRegion.id)));
+					if (subMor != null && subMor.id != curDoc.TopElem.alternate_id) {
+						curDoc.TopElem.alternate_creater_id = userID;
+					}
+					curDoc.TopElem.mor_id = mor != null ? mor.id : null;
+					curDoc.TopElem.alternate_id = subMor != null ? subMor.id : null;
+					curDoc.TopElem.alternate_date =
+						(subMor != null && subMor.HasProperty('alternate_date')) ? Date(subMor.alternate_date) : null;
 					curDoc.Save();
+					return tools.object_to_text({
+						status: 'ok'
+					}, 'json')
 				} catch (e) {
 					queryObjects.Request.SetRespStatus( 404, 'Ошибка при сохранении изменений -' + e);
 				}
+			} else {
+				queryObjects.Request.SetRespStatus( 404, 'Регион не найден');
 			}
-			queryObjects.Request.SetRespStatus( 404, 'Регион не найден');
 		}
 	}
 
-	function get_Mors(queryObjects){
+	function get_Collaborators(queryObjects){
 		var search = queryObjects.HasProperty('search') ? queryObjects.search : '';
-		var page = queryObjects.HasProperty('page') ? queryObjects.page : 1;
+		var page = queryObjects.HasProperty('page') ? Int(queryObjects.page) : 0;
 
-		// var regions = XQuery('sql:
-		//     with e(mor_id, int_rownum) as
-		//     (
-		//         SELECT i."mor_id", ROWNUM int_rownum
-		//         FROM "cc_mor_controls" i
-		//         WHERE ROWNUM <= (0 + 1) * 3
-		//     )
-		//     select e.mor_id, e.int_rownum
-		//     from e
-		//     where e.int_rownum > 0 * 3
-		// ');
-		//var regions = XQuery("for $rs in cc_mor_controls where $rs/mor_id = " + userID + " or MatchSome(" + userID + ",(" + users.join(',') + "))");
-
-
-		var _mors = XQuery('sql:
+		alert('page: ' + page);
+		var _mors = XQuery("sql:
 			with e(id, fullname, position_name, rnb, total) as
 			(
 				SELECT
-					c."id",
-					"fullname",
-					"position_name",
-					row_number() over (order by "fullname") rnb,
+					cast(c.\"id\" as varchar2(32)) \"id\",
+					\"fullname\",
+					\"position_name\",
+					row_number() over (order by \"fullname\") rnb,
 					count(*) over() total
-				FROM "WTDB"."collaborators" cc
-				inner join "collaborator" c on c."id" = cc."id"
-				where cc."is_dismiss" = 0
-				and cc."fullname" LIKE \'%' + search + '%\'
+				FROM \"collaborators\" cc
+				inner join \"collaborator\" c on c.\"id\" = cc.\"id\"
+				where cc.\"is_dismiss\" = 0
+				and cc.\"fullname\" LIKE \'%" + search + "%\'
 			)
-			select e.id, e.fullname, e.position_name, e.rnb, e.total
+			select
+				e.id \"id\",
+				e.fullname \"fullname\",
+				e.position_name \"position_name\",
+				e.rnb,
+				e.total \"total\"
 			from e
-			where rnb BETWEEN ' + page * OFFSET + ' AND ' + LIMIT +';');
+			where e.rnb BETWEEN " + (page * LIMIT) + " AND " + ((page * LIMIT) + LIMIT)
+		);
 
 		var omors = [];
 		var total = 0;
@@ -201,7 +201,7 @@
 			omors.push({
 				id: Trim(r.id),
 				data: {
-					fullname: Trim(r.fullname + ' / ' + r.position_name)
+					fullname: Trim(r.fullname)
 				}
 			});
 		}

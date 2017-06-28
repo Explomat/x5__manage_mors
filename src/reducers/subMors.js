@@ -5,6 +5,7 @@ const initialState = {
 	items: [],
 	selectedItems: [],
 	pagesCount: 1,
+	page: 0,
 	isFetching: true
 };
 

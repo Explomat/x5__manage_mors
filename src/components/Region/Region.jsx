@@ -2,6 +2,9 @@ import React from 'react';
 //import ArrowRight from 'react-icons/io/arrow-right-a';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
+
+import moment from 'moment';
+moment.locale('ru');
 import './region.styl';
 
 const Region = ({ id, url, title, mor, subMor }) => {
@@ -27,7 +30,9 @@ const Region = ({ id, url, title, mor, subMor }) => {
 					{subMor &&
 						<span className='region__sub-mor-info'>
 							<span className='icon-user region__sub-mor-name'>{subMor.name}</span>
-							<span className='region__sub-mor-alternate-date'>{subMor.alternate_date}</span>
+							{subMor.alternate_date &&
+								<span className='region__sub-mor-alternate-date'>{moment(subMor.alternate_date).format('LL')}</span>
+							}
 						</span>
 					}
 				</div>

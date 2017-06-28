@@ -51,7 +51,7 @@ class SelectItems extends React.Component {
 			items: props.items,
 			selectedItems: props.selectedItems,
 			search: '',
-			page: 1,
+			page: 0,
 			isDisplaySelectedItems: false,
 			error: ''
 		};
@@ -67,8 +67,7 @@ class SelectItems extends React.Component {
 
 	componentWillReceiveProps(nextProps){
 		this.setState({
-			items: nextProps.items ? nextProps.items : [],
-			selectedItems: nextProps.selectedItems ? nextProps.selectedItems : []
+			items: nextProps.items ? nextProps.items : []
 		});
 	}
 
@@ -79,7 +78,7 @@ class SelectItems extends React.Component {
 	}
 
 	handleChangeSearch(search){
-		this.setState({ search, page: 1 });
+		this.setState({ search, page: 0 });
 		if (this.props.onChange){
 			this.props.onChange(search, this.state.page);
 		}
@@ -213,7 +212,7 @@ class SelectItems extends React.Component {
 						<Paging
 							className='select-items__paging select-items__paging--top'
 							onChange={this.handleChangePage}
-							value={Number(page)}
+							page={Number(page)}
 							pagesCount={Number(pagesCount)}
 						/>
 						<Items
@@ -224,7 +223,7 @@ class SelectItems extends React.Component {
 						<Paging
 							className='select-items__paging select-items__paging--bottom'
 							onChange={this.handleChangePage}
-							value={Number(page)}
+							page={Number(page)}
 							pagesCount={Number(pagesCount)}
 						/>
 					</div>

@@ -70,12 +70,12 @@ class RegionContainer extends Component {
 
 	handleToggleDisplayMorModal(){
 		this.setState({ isDisplayMorModal: !this.state.isDisplayMorModal });
-		this.props.getMors();
+		this.props.getMors('', 0);
 	}
 
 	handleToggleDisplaySubMorModal(){
 		this.setState({ isDisplaySubMorModal: !this.state.isDisplaySubMorModal });
-		this.props.getSubMors();
+		this.props.getSubMors('', 0);
 	}
 
 	render(){

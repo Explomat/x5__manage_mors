@@ -4,6 +4,7 @@ const initialState = {
 	headerCols: [],
 	items: [],
 	selectedItems: [],
+	page: 0,
 	pagesCount: 1,
 	isFetching: true
 };

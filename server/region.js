@@ -1,31 +1,39 @@
 
-function Region(region){
-    region = region == undefined ? {} : region;
+function _replaceQuotes(str){
+    return StrReplace(StrReplace(str, '\\', '\\\\'), '\"', '\'');
+}
 
-    var morId = region.GetOptProperty('mor_id');
+function Region(region){
+    //region = region == undefined ? {} : region;
+    var outObj = {};
+
+    var morId = OptInt(region.OptChild('mor_id'));
     var mor = undefined;
     if (morId != undefined){
-        mor = {
+        outObj.mor = {
             id: morId,
-            name: region.GetOptProperty('mor_fullname'),
+            name: _replaceQuotes(String(region.OptChild('mor_fullname'))),
             url: '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=' + morId
         }
     }
 
-    var subMorId = region.GetOptProperty('alternate_id');
+    var subMorId = OptInt(region.OptChild('alternate_id'));
     var subMor = undefined;
     if (subMorId != undefined){
-        subMor = {
+        var altDate = (region.OptChild('alternate_date') != undefined &&
+            region.alternate_date != undefined &&
+            region.alternate_date != null) ?
+                StrXmlDate(region.alternate_date) : '';
+        outObj.subMor = {
             id: subMorId,
-            name: region.GetOptProperty('alternate_mor_fullname'),
+            name: _replaceQuotes(String(region.OptChild('alternate_mor_fullname'))),
+            alternate_date: altDate,
+            alternate_creater_fullname: String(region.OptChild('alternate_creater_fullname')),
             url: '/custom_web_template.html?object_id=6426564961292851360&server_id=6426559944368726663&action_name=Mors&mor_id=' + subMorId
         }
     }
-
-    return {
-        id: region.GetOptProperty('sub_id'),
-        title: region.GetOptProperty('sub_name'),
-        mor: mor,
-        subMor: subMor
-    }
+    outObj.id = OptInt(region.OptChild('sub_id'));
+    outObj.title = _replaceQuotes(String(region.OptChild('sub_name')));
+    outObj.isEdit = true;
+    return outObj;
 }

@@ -32,8 +32,9 @@ class Home extends Component {
 							>Моры</NavLink>
 						</li>
 					</ul>
-
-					<Route path={`${match.url}/regions`} component={Regions} />
+					
+					<Regions />
+					{/* <Route path={`${match.url}/regions`} component={Regions} /> */}
 					<Route path={`${match.url}/mors`} component={Mors} />
 				</div>
 			</div>
