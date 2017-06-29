@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
 import Region from './Region';
-import Home from '../components/Home';
+import Home from './Home';
 import Header from '../components/Header';
 
 //import { AlertDanger, AlertInfo } from '../components/modules/alert';

@@ -21,22 +21,16 @@
 		PUT /regions/12345 — редактировать регион 12345
 		DELETE /regions/12345 — удалить регион 12345
 	*/
-	//var localPath = String(AbsoluteUrl('manage_mors.js'));
-	//alert(localPath);
-	//alert(ParentDirectory(localPath));
 
 	// DropFormsCache('x-local://wt/web/common/json.js');
 	// var json = OpenCodeLib('x-local://wt/web/common/json.js');
 
 	var LIMIT = 25;
-	var OFFSET = 1;
 	var userID = curUserID;
-	var users = [6148914691236517121];
+	var users = [ 6148914691236517121 ];
 
 	function __countPages(total, limit){
-		var t = total / Real(limit);
-		var t1 = Math.round(total / limit);
-		return t > t1 ? t1 + 1 : t1;
+		return (total - (total % limit)) / limit;
 	}
 
 	function __assignDoc(te, obj){
@@ -76,11 +70,12 @@
 				)
 			);
 			if (region != undefined) {
-				return tools.object_to_text(_region.Region(region), 'json');
+				return tools.object_to_text(_region.Region(region, userID, users), 'json');
 			}
 			queryObjects.Request.SetRespStatus(404, 'Регион не найден');
 		}
 
+		var search = queryObjects.HasProperty('search') ? queryObjects.search : '';
 		var page = queryObjects.HasProperty('page') ? Int(queryObjects.page) : 0;
 		var regions = XQuery("sql:
 			with e(sub_id, sub_name, mor_id, mor_fullname, alternate_id, alternate_mor_fullname, alternate_date, rnb, total) as
@@ -98,6 +93,7 @@
 				from \"cc_mor_controls\"
 				left join \"collaborators\" mc on mc.\"id\" = \"mor_id\"
 				left join \"collaborators\" ac on ac.\"id\" = \"alternate_id\"
+				where lower(\"sub_name\") LIKE lower(\'%" + search + "%\')
 			)
 			select
 				e.sub_id \"sub_id\",
@@ -111,7 +107,7 @@
 				e.total \"total\"
 			from e
 			--where (e.mor_id = ' + userID + ' or e.mor_id in (\'' + users.join('\',\'') + '\'))
-			where e.rnb BETWEEN " + (page * LIMIT) + " AND " + ((page * LIMIT) + LIMIT)
+			where e.rnb BETWEEN " + ((page * LIMIT) + 1) + " AND " + ((page * LIMIT) + LIMIT)
 		);
 
 		var oregions = [];
@@ -124,11 +120,8 @@
 
 		return tools.object_to_text({
 			regions: oregions,
-			paging: {
-				limit: LIMIT,
-				offset: OFFSET,
-				total: total
-			}
+			page: page,
+			total: __countPages(total, LIMIT)
 		}, 'json');
 	}
 
@@ -169,7 +162,6 @@
 		var search = queryObjects.HasProperty('search') ? queryObjects.search : '';
 		var page = queryObjects.HasProperty('page') ? Int(queryObjects.page) : 0;
 
-		alert('page: ' + page);
 		var _mors = XQuery("sql:
 			with e(id, fullname, position_name, rnb, total) as
 			(
@@ -182,7 +174,7 @@
 				FROM \"collaborators\" cc
 				inner join \"collaborator\" c on c.\"id\" = cc.\"id\"
 				where cc.\"is_dismiss\" = 0
-				and cc.\"fullname\" LIKE \'%" + search + "%\'
+				and lower(cc.\"fullname\") LIKE lower(\'%" + search + "%\')
 			)
 			select
 				e.id \"id\",
@@ -191,7 +183,7 @@
 				e.rnb,
 				e.total \"total\"
 			from e
-			where e.rnb BETWEEN " + (page * LIMIT) + " AND " + ((page * LIMIT) + LIMIT)
+			where e.rnb BETWEEN " + ((page * LIMIT) + 1) + " AND " + ((page * LIMIT) + LIMIT)
 		);
 
 		var omors = [];

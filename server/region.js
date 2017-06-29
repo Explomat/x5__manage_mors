@@ -3,9 +3,10 @@ function _replaceQuotes(str){
     return StrReplace(StrReplace(str, '\\', '\\\\'), '\"', '\'');
 }
 
-function Region(region){
+function Region(region, curUserID, usersIdsForEdit){
     //region = region == undefined ? {} : region;
     var outObj = {};
+    usersIdsForEdit = usersIdsForEdit == undefined ? [] : usersIdsForEdit;
 
     var morId = OptInt(region.OptChild('mor_id'));
     var mor = undefined;
@@ -34,6 +35,17 @@ function Region(region){
     }
     outObj.id = OptInt(region.OptChild('sub_id'));
     outObj.title = _replaceQuotes(String(region.OptChild('sub_name')));
-    outObj.isEdit = true;
+
+    var isEdit = false;
+    if (morId == curUserID) {
+        isEdit = true;
+    }
+    for (u in usersIdsForEdit){
+        if (curUserID == u){
+            isEdit = true;
+        }
+    }
+
+    outObj.isEdit = isEdit;
     return outObj;
 }

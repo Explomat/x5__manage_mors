@@ -15,7 +15,7 @@ import { error } from './appCreators';
 // } from './mock';
 //import regionsSchema from '../schemas';
 
-export function getRegions(){
+export function getRegions(search, page){
 	return dispatch => {
 		dispatch({ type: regionsConstants.REGIONS_GET_DATA });
 
@@ -29,7 +29,9 @@ export function getRegions(){
 
 		const path = url.createPath({
 			server_name: 'manageMors',
-			action_name: 'Regions'
+			action_name: 'Regions',
+			search: search || '',
+			page: page || 0
 		});
 		get(path)
 		.then(resp => JSON.parse(resp))
@@ -39,6 +41,34 @@ export function getRegions(){
 			} else {
 				dispatch({
 					type: regionsConstants.REGIONS_GET_DATA_SUCCESS,
+					result: data
+				});
+			}
+		})
+		.catch(e => {
+			dispatch(error(e.message));
+		});
+	};
+}
+
+export function getRegionsOnScroll(search, page){
+	return dispatch => {
+		dispatch({ type: regionsConstants.REGIONS_GET_DATA_ON_SCROLL });
+
+		const path = url.createPath({
+			server_name: 'manageMors',
+			action_name: 'Regions',
+			search: search || '',
+			page: page || 0
+		});
+		get(path)
+		.then(resp => JSON.parse(resp))
+		.then(data => {
+			if (data.error){
+				dispatch(error(data.error));
+			} else {
+				dispatch({
+					type: regionsConstants.REGIONS_GET_DATA_ON_SCROLL_SUCCESS,
 					result: data
 				});
 			}
@@ -97,6 +127,13 @@ export function setAlternateDate(date){
 	};
 }
 
+export function setRegionsSearchValue(value){
+	return {
+		type: regionsConstants.REGIONS_SET_SEARCH_VALUE,
+		value
+	};
+}
+
 export function saveRegion(){
 	return (dispatch, getState) => {
 		dispatch({ type: regionsConstants.REGIONS_SAVE_REGION });
@@ -105,7 +142,7 @@ export function saveRegion(){
 		// 	dispatch(push('/home/regions'));
 		// }, 300);
 		const state = getState();
-		
+
 		const path = url.createPath({
 			server_name: 'manageMors',
 			action_name: 'Regions',

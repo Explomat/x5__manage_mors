@@ -25,8 +25,8 @@ export function getMors(search, page){
 		const path = url.createPath({
 			server_name: 'manageMors',
 			action_name: 'Collaborators',
-			search,
-			page
+			search: search || '',
+			page: page || 0
 		});
 		get(path)
 		.then(resp => JSON.parse(resp))

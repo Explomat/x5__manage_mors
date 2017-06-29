@@ -262,7 +262,7 @@ SelectItems.propTypes = {
 };
 
 SelectItems.defaultProps = {
-	title: 'Подтвердите действие',
+	title: 'Выберите элементы',
 	headerCols: [],
 	items: [],
 	selectedItems: [],

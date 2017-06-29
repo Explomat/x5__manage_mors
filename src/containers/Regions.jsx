@@ -5,8 +5,30 @@ import { connect } from 'react-redux';
 
 class RegionsContainer extends Component {
 
+	constructor(props){
+		super(props);
+
+		this._srollDown = this._srollDown.bind(this);
+	}
+
 	componentDidMount(){
 		this.props.getRegions();
+		window.addEventListener('scroll', this._srollDown);
+	}
+
+	componentWillUnmount(){
+		window.removeEventListener('scroll', this._srollDown);
+	}
+
+	_srollDown(){
+		const scrollHeight = document.documentElement.scrollHeight;
+		const clientHeight = document.documentElement.clientHeight;
+		const offset = window.pageYOffset;
+
+		const { isFetchingScroll, search, page, total } = this.props;
+		if (scrollHeight - (clientHeight + offset) < 100 && !isFetchingScroll && (page + 1) <= total) {
+			this.props.getRegionsOnScroll(search, page + 1);
+		}
 	}
 
 	render(){
