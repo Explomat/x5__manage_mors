@@ -27,7 +27,20 @@
 
 	var LIMIT = 25;
 	var userID = curUserID;
-	var users = [ 6148914691236517121 ];
+	var groups = [ 'SM_manage_mors' ];
+
+	function __getUsersForEdit(){
+		var users = [];
+		for (g in groups){
+			gr = ArrayOptFirstElem(XQuery("for $el in groups where $el/code = '" + g + "' return $el"));
+			if (gr != undefined){
+				group = OpenDoc(UrlFromDocID(gr.id));
+				users = ArrayUnion(ArrayExtract(group.TopElem.collaborators, 'This.collaborator_id'), users);
+			}
+		}
+		return users;
+	}
+
 
 	function __countPages(total, limit){
 		return (total - (total % limit)) / limit;
@@ -70,7 +83,8 @@
 				)
 			);
 			if (region != undefined) {
-				return tools.object_to_text(_region.Region(region, userID, users), 'json');
+				var _users = __getUsersForEdit();
+				return tools.object_to_text(_region.Region(region, userID, _users), 'json');
 			}
 			queryObjects.Request.SetRespStatus(404, 'Регион не найден');
 		}
@@ -144,7 +158,8 @@
 					curDoc.TopElem.mor_id = mor != null ? mor.id : null;
 					curDoc.TopElem.alternate_id = subMor != null ? subMor.id : null;
 					curDoc.TopElem.alternate_date =
-						(subMor != null && subMor.HasProperty('alternate_date')) ? Date(subMor.alternate_date) : null;
+						(subMor != null && subMor.HasProperty('alternate_date') &&  subMor.GetOptProperty('alternate_date') != '') ?
+						Date(subMor.alternate_date) : null;
 					curDoc.Save();
 					return tools.object_to_text({
 						status: 'ok'

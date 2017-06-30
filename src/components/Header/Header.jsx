@@ -18,7 +18,7 @@ const Header = ({ location, history }) => {
 			{!isRoot &&
 				<a href='#' className='app-container__header-back-icon icon-left-open-big' onClick={back} />
 			}
-			<strong>Управление регионами</strong>
+			<strong>Управление морами</strong>
 		</div>
 	);
 };

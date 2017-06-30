@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Route } from 'react-router-dom';
 
 import Regions from '../Regions';
-import Mors from '../Mors';
+//import Mors from '../Mors';
 import SearchBar from '../../components/modules/search-bar';
 
 import { regionsCreators } from '../../actions';
@@ -38,17 +38,17 @@ class HomeContainer extends Component {
 								to={`${match.url}/regions`}
 							>Регионы</NavLink>
 						</li>
-						<li className='home__menu-item'>
+						{/* <li className='home__menu-item'>
 							<NavLink
 								className='link'
 								activeClassName='link--active'
 								to={`${match.url}/mors`}
 							>Моры</NavLink>
-						</li>
+						</li> */}
 					</ul>
 
 					<Route path={`${match.url}/regions`} component={Regions} />
-					<Route path={`${match.url}/mors`} component={Mors} />
+					{/* <Route path={`${match.url}/mors`} component={Mors} /> */}
 				</div>
 			</div>
 		);
