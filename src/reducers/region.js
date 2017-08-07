@@ -1,6 +1,8 @@
 import regionsConstants from '../constants/regionsConstants';
 import morsConstants from '../constants/morsConstants';
 import subMorsConstants from '../constants/subMorsConstants';
+import moment from 'moment';
+moment.locale('ru');
 
 const initialState = {
 	'id': null,
@@ -71,7 +73,8 @@ export default function regions(state = initialState, action) {
 				...state,
 				subMor: subMor ? {
 					id: subMor.id,
-					name: subMor.data.fullname
+					name: subMor.data.fullname,
+					alternate_date: moment().format()
 				} : null
 			};
 		}

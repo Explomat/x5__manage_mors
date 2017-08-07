@@ -31,7 +31,7 @@ app.use(webpackHotMiddleware(compiler, {
 
 var apiProxy = proxy({
 	target: project.common.proxyServer,
-	auth: 'user1:user1',
+	auth: 'user2:user2',
 	changeOrigin: true
 });
 //\/custom_web_template\.html\?object_id=\d+&server_id=\d+(&\w+)?

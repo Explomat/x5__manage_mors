@@ -4,7 +4,7 @@ var exportPath = '\\\\msk-kltn-app007\\d$\\WebSoft\\WebTutorServer\\wt\\web';
 
 var common = {
 	title: 'Управление морами',
-	proxyServer: 'http://studytest.x5.ru',
+	proxyServer: 'http://172.20.9.20',
 	remotePath: path.join(exportPath, packageSettings.name)
 }
 

@@ -143,7 +143,7 @@ class RegionContainer extends Component {
 									onSave={this.handleSaveAlternateDate}
 								/> :
 								<span className='region-container__field-value'>
-									{moment(subMor.alternate_date).isValid() && moment(subMor.alternate_date).format('LL')}
+									{moment(subMor.alternate_date, 'YYYY-MM-DD').isValid() && moment(subMor.alternate_date, 'YYYY-MM-DD').format('LL')}
 								</span>
 							}
 						</div>
