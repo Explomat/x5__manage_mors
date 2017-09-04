@@ -209,7 +209,8 @@
 				id: Trim(r.id),
 				data: {
 					fullname: Trim(r.fullname)
-				}
+				},
+				description: Trim(r.position_name)
 			});
 		}
 		return tools.object_to_text({

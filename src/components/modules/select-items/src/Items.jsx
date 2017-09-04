@@ -56,7 +56,7 @@ class Item extends React.Component {
 	}
 
 	render(){
-		const { data, isSelected } = this.props;
+		const { data, description, isSelected } = this.props;
 		const classesIcon = cx({
 			'icon-plus': !isSelected,
 			'icon-ok-1': isSelected,
@@ -71,6 +71,7 @@ class Item extends React.Component {
 				{Object.keys(data).map((c, index) => {
 					return <td key={index} className='body-row__col oneline'>{data[c]}</td>;
 				})}
+				<td className='body-row__description'>{description}</td>
 			</tr>
 		);
 	}
